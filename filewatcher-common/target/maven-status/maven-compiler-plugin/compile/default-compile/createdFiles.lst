@@ -1,0 +1,14 @@
+com\filewatchercommon\ws\WsTypes.class
+com\filewatchercommon\model\TransferEvent.class
+com\filewatchercommon\model\CredentialMessage.class
+com\filewatchercommon\model\TransferEvent$EventType.class
+com\filewatchercommon\model\WatchJob$Protocol.class
+com\filewatchercommon\model\WatchJob$Direction.class
+com\filewatchercommon\model\WatchJob$TransferMode.class
+com\filewatchercommon\ws\WsCommands.class
+com\filewatchercommon\util\FileUtils.class
+com\filewatchercommon\util\OsType.class
+com\filewatchercommon\model\WatchJob$Status.class
+com\filewatchercommon\model\WatchJob.class
+com\filewatchercommon\service\NotificationService.class
+com\filewatchercommon\model\NotificationMessage.class

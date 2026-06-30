@@ -1,0 +1,14 @@
+{
+  "websocketPort": 9876,
+  "websocketHost": "localhost",
+  "defaultIntervalSeconds": 120,
+  "pollingFallbackEnabled": true,
+  "logLevel": "INFO",
+  "logMaxFileSizeMb": 10,
+  "logMaxFileCount": 5,
+  "schedulerThreadPoolSize": 4,
+  "heartbeatIntervalSeconds": 60,
+  "sshConnectTimeoutMs": 10000,
+  "sftpChannelTimeoutMs": 5000,
+  "maxConcurrentTransfers": 0
+}

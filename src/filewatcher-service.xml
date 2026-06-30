@@ -1,0 +1,22 @@
+<service>
+    <id>FileWatcherService</id>
+    <name>FileWatcher Ops Service</name>
+    <description>Watches and transfers files in the background</description>
+
+    <!-- Path to your JVM -->
+    <executable>java</executable>
+    <arguments>-jar "%BASE%\filewatcher.jar" --service</arguments>
+
+    <!-- Log output -->
+    <logpath>%BASE%\logs</logpath>
+    <log mode="roll-by-size">
+        <sizeThreshold>10240</sizeThreshold>
+        <keepFiles>5</keepFiles>
+    </log>
+
+    <!-- Restart on failure -->
+    <onfailure action="restart" delay="10 sec"/>
+
+    <!-- Start automatically with Windows -->
+    <startmode>Automatic</startmode>
+</service>
