@@ -1,0 +1,83 @@
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java
+index 18c9409..c9d8dba 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java
+@@ -90,7 +90,7 @@ public class ServiceMain {
+         // ── Phase 8: Start WebSocket Server ───────────────────────────────────
+         LOG.info("[Phase 8] Starting WebSocket server on port " + config.websocketPort + "...");
+         ServiceWebSocketServer wsServer = new ServiceWebSocketServer(
+-                config.websocketPort, serviceManager, watcherService, notificationService);
++                config.websocketHost, config.websocketPort, serviceManager, watcherService, notificationService);
+         wsServer.start();
+ 
+         // ── Phase 9 & 10: UI Connects / Dashboard Ready ───────────────────────
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
+index 1337a83..2edb672 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
+@@ -17,7 +17,8 @@ import java.util.List;
+ import java.util.logging.Logger;
+ 
+ /**
+- * Embedded WebSocket server on localhost:9876.
++ * Embedded WebSocket server. Host and port are driven by AppConfig
++ * (services.json: websocketHost / websocketPort), not hardcoded.
+  *
+  * CHANGE: job lifecycle commands (START_JOB, STOP_JOB, START_ALL, STOP_ALL,
+  * ADD_JOB, UPDATE_JOB, DELETE_JOB) now go through ServiceManager instead of
+@@ -49,6 +50,7 @@ public class ServiceWebSocketServer extends WebSocketServer {
+     private final ServiceManager      serviceManager;
+     private final FileWatcherService  watcherService;
+     private final NotificationService notificationService;
++    private final int                 port;
+ 
+     private final long serviceStartMs = System.currentTimeMillis();
+     private static final Gson GSON = new GsonBuilder()
+@@ -60,11 +62,12 @@ public class ServiceWebSocketServer extends WebSocketServer {
+                             (json, t, ctx) -> java.time.LocalDateTime.parse(json.getAsString()))
+             .create();
+ 
+-    public ServiceWebSocketServer(int port,
++    public ServiceWebSocketServer(String host, int port,
+                                   ServiceManager serviceManager,
+                                   FileWatcherService watcherService,
+                                   NotificationService notificationService) {
+-        super(new InetSocketAddress("localhost", port));
++        super(new InetSocketAddress(host, port));
++        this.port                = port;
+         this.serviceManager      = serviceManager;
+         this.watcherService      = watcherService;
+         this.notificationService = notificationService;
+@@ -72,6 +75,14 @@ public class ServiceWebSocketServer extends WebSocketServer {
+         wireListeners();
+     }
+ 
++    /** Convenience overload — binds to localhost, kept for callers that don't pass a host explicitly. */
++    public ServiceWebSocketServer(int port,
++                                  ServiceManager serviceManager,
++                                  FileWatcherService watcherService,
++                                  NotificationService notificationService) {
++        this("localhost", port, serviceManager, watcherService, notificationService);
++    }
++
+     // ── Wire service listeners → broadcast to all UI clients ─────────────────
+ 
+     private void wireListeners() {
+@@ -143,7 +154,7 @@ public class ServiceWebSocketServer extends WebSocketServer {
+         stats.addProperty("totalJobs",      serviceManager.getWatchJobs().size());
+         stats.addProperty("totalTransfers", totalTransfers);
+         stats.addProperty("totalBytes",     totalBytes);
+-        stats.addProperty("wsPort",         9876);
++        stats.addProperty("wsPort",         port);
+         if (lastError != null)
+             stats.addProperty("lastError",  lastError);
+ 
+@@ -178,7 +189,7 @@ public class ServiceWebSocketServer extends WebSocketServer {
+ 
+     @Override
+     public void onStart() {
+-        LOG.info("WebSocket server started on ws://localhost:9876");
++        LOG.info("WebSocket server started on ws://" + getAddress().getHostString() + ":" + port);
+     }
+ 
+     // ── Handle commands from UI ───────────────────────────────────────────────

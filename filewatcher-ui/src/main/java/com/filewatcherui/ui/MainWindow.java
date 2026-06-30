@@ -22,6 +22,7 @@ public class MainWindow {
     private  EventLogPanel  eventLog;
     private  JobDetailPanel detailPanel;
     private  StatusBarPanel statusBar;
+    private  LogsPanel      logsPanel;
     private       NotificationPanel notificationPanel;
     private       Button            bellButton;
     private       Label             badgeLabel;
@@ -46,6 +47,7 @@ public class MainWindow {
 
         CredentialsPanel credentialsPanel = new CredentialsPanel(client);
         HealthPanel      healthPanel      = new HealthPanel(client);
+        logsPanel = new LogsPanel(client);
         notificationPanel = new NotificationPanel(notificationService, client);
         notificationPanel.setVisible(false);
 
@@ -53,6 +55,7 @@ public class MainWindow {
         client.addJobListListener(jobs -> Platform.runLater(() -> {
             jobTable.setJobs(jobs);
             statusBar.refresh();
+            logsPanel.setAvailableJobs(jobs);
         }));
 
         client.addJobStateListener(job -> Platform.runLater(() -> {
@@ -69,8 +72,10 @@ public class MainWindow {
         client.addNotificationListener(n -> Platform.runLater(() ->
                 notificationService.addError(n.getJobId(), n.getJobName(), n.getMessage())));
 
-        client.addConnectListener(() -> Platform.runLater(() ->
-                credentialsPanel.loadFromService()));
+        client.addConnectListener(() -> Platform.runLater(() -> {
+            credentialsPanel.loadFromService();
+            logsPanel.refreshFromServer();
+        }));
 
         notificationService.addListener(notifications -> Platform.runLater(() -> {
             long unread = notificationService.getUnreadCount();
@@ -102,7 +107,8 @@ public class MainWindow {
         Tab jobsTab   = new Tab("Watch Jobs",     mainSplit);
         Tab credsTab  = new Tab("Credentials",    credentialsPanel.getRoot());
         Tab healthTab = new Tab("Service Health", healthPanel.getRoot());
-        tabs.getTabs().addAll(jobsTab, credsTab, healthTab);
+        Tab logsTab   = new Tab("Logs",           logsPanel.getRoot());
+        tabs.getTabs().addAll(jobsTab, credsTab, healthTab, logsTab);
 
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: " + Theme.BG_BASE + ";");

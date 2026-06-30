@@ -206,6 +206,18 @@ public class LogsPanel {
         client.getLogs(selectedJobId(), selectedEventType(), searchField.getText(), DEFAULT_LIMIT);
     }
 
+    /**
+     * Re-issues the current filtered query against the service. Intended to be
+     * called by MainWindow's connect listener: the initial refresh() fired
+     * from the constructor runs before the WebSocket is open (ServiceClient
+     * connects asynchronously after the UI is shown), so its GET_LOGS command
+     * is silently dropped. This lets the panel populate itself as soon as a
+     * connection actually exists, and again after any reconnect.
+     */
+    public void refreshFromServer() {
+        refresh();
+    }
+
     private void requestExport() {
         client.exportLogs(selectedJobId(), selectedEventType(), searchField.getText(), 10000);
     }
