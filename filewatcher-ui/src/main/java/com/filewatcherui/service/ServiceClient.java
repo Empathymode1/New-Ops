@@ -1,6 +1,7 @@
 package com.filewatcherui.service;
 
 import com.filewatchercommon.model.*;
+import com.filewatchercommon.ws.WsCommands;
 import com.filewatchercommon.ws.WsTypes;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -236,6 +237,26 @@ public class ServiceClient extends WebSocketClient {
         JsonObject cmd = new JsonObject();
         cmd.addProperty("cmd", "ADD_JOB");
         cmd.add("job", GSON.toJsonTree(job));
+        sendIfConnected(cmd);
+    }
+
+    public void getLogs(String jobId, String eventType, String searchText, int limit) {
+        JsonObject cmd = new JsonObject();
+        cmd.addProperty("cmd", WsCommands.GET_LOGS);
+        if (jobId != null && !jobId.isBlank())           cmd.addProperty("jobId", jobId);
+        if (eventType != null && !eventType.isBlank())   cmd.addProperty("eventType", eventType);
+        if (searchText != null && !searchText.isBlank()) cmd.addProperty("searchText", searchText);
+        cmd.addProperty("limit", limit);
+        sendIfConnected(cmd);
+    }
+
+    public void exportLogs(String jobId, String eventType, String searchText, int limit) {
+        JsonObject cmd = new JsonObject();
+        cmd.addProperty("cmd", WsCommands.EXPORT_LOGS);
+        if (jobId != null && !jobId.isBlank())           cmd.addProperty("jobId", jobId);
+        if (eventType != null && !eventType.isBlank())   cmd.addProperty("eventType", eventType);
+        if (searchText != null && !searchText.isBlank()) cmd.addProperty("searchText", searchText);
+        cmd.addProperty("limit", limit);
         sendIfConnected(cmd);
     }
 
