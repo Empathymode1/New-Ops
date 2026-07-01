@@ -76,6 +76,26 @@ public class ConfigLoader {
         }
     }
 
+    /**
+     * Persist {@code config} back to services.json at the same path load()
+     * would resolve, so a config edited at runtime (e.g. via
+     * UPDATE_CONFIGURATION over the WebSocket) survives a service restart.
+     * Mirrors writeDefaults()'s error handling: logs and returns rather than
+     * throwing, since a failed write shouldn't crash a running service.
+     */
+    public static void save(AppConfig config) {
+        Path configPath = resolveConfigPath();
+        try {
+            if (configPath.getParent() != null) {
+                Files.createDirectories(configPath.getParent());
+            }
+            Files.writeString(configPath, GSON.toJson(config), StandardCharsets.UTF_8);
+            LOG.info("Saved updated config to: " + configPath.toAbsolutePath());
+        } catch (IOException e) {
+            LOG.warning("Could not save services.json: " + e.getMessage());
+        }
+    }
+
     // ── Path resolution ───────────────────────────────────────────────────────
 
     /**

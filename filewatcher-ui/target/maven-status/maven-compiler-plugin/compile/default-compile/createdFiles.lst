@@ -9,10 +9,14 @@ com\filewatcherui\ui\JobTablePanel$1.class
 com\filewatcherui\ui\MainWindow.class
 com\filewatcherui\ui\JobTablePanel$3.class
 com\filewatcherui\ui\RemoteBrowserDialog.class
+com\filewatcherui\ui\SettingsPanel.class
 com\filewatcherui\ui\CredentialsPanel.class
+com\filewatcherui\ui\DashboardPanel$2.class
 com\filewatcherui\ui\NotificationPanel.class
 com\filewatcherui\ui\JobEditDialog.class
+com\filewatcherui\ui\DashboardPanel$1.class
 com\filewatcherui\ui\StatusBarPanel.class
+com\filewatcherui\ui\DashboardPanel.class
 com\filewatcherui\ui\Theme.class
 com\filewatcherui\ui\Theme$1.class
 com\filewatcherui\ui\JobTablePanel.class
@@ -23,3 +27,4 @@ com\filewatcherui\ui\CredentialsPanel$1.class
 com\filewatcherui\ui\JobTablePanel$4.class
 com\filewatcherui\ui\JobDetailPanel.class
 com\filewatcherui\ui\JobTablePanel$2.class
+com\filewatcherui\ui\LogsPanel.class

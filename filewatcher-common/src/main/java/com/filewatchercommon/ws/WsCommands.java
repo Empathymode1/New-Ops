@@ -22,6 +22,11 @@ public final class WsCommands {
     public static final String TEST_CREDENTIAL    = "TEST_CREDENTIAL";
     public static final String HEALTH             = "HEALTH";
 
+    /** §9 of the architecture doc: applies AppConfig changes and hot-applies/persists them. */
+    public static final String UPDATE_CONFIGURATION = "UPDATE_CONFIGURATION";
+    /** Not in §9 by name, but needed so SettingsPanel can populate its form with the live config before editing. */
+    public static final String GET_CONFIGURATION     = "GET_CONFIGURATION";
+
     /** Fetches transfer_logs rows, filtered by optional jobId/eventType/searchText. */
     public static final String GET_LOGS           = "GET_LOGS";
     /** Same filters as GET_LOGS, but returns the result as a single CSV string for client-side save. */

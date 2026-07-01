@@ -9,6 +9,7 @@ com\filewatchercommon\ws\WsCommands.class
 com\filewatchercommon\util\FileUtils.class
 com\filewatchercommon\util\OsType.class
 com\filewatchercommon\model\WatchJob$Status.class
+com\filewatchercommon\model\LogEntryMessage.class
 com\filewatchercommon\model\WatchJob.class
 com\filewatchercommon\service\NotificationService.class
 com\filewatchercommon\model\NotificationMessage.class

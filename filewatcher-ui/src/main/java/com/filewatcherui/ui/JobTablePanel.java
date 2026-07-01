@@ -65,7 +65,7 @@ public class JobTablePanel {
         bar.setPadding(new Insets(14, 12, 10, 16));
         bar.setStyle("-fx-background-color: " + Theme.BG_SURFACE + ";");
 
-        Label title = new Label("Watch Jobs");
+        Label title = new Label("Service Management");
         title.setStyle(
                 "-fx-font-size: 15;" +
                         "-fx-font-weight: bold;" +
@@ -205,7 +205,25 @@ public class JobTablePanel {
             }
         });
 
-        table.getColumns().addAll(nameCol, statusCol, dirCol, modeCol, lastCol);
+        // Last heartbeat column — backed by WatchJob.lastHeartbeat (real per-job
+        // liveness tick from FileWatcherService), not a reuse of Last Transfer.
+        TableColumn<WatchJob, String> heartbeatCol = new TableColumn<>("Last Heartbeat");
+        heartbeatCol.setPrefWidth(130);
+        heartbeatCol.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
+                c.getValue().getLastHeartbeat() != null
+                        ? c.getValue().getLastHeartbeat().format(FMT) : "—"));
+        heartbeatCol.setCellFactory(col -> new TableCell<>() {
+            @Override protected void updateItem(String val, boolean empty) {
+                super.updateItem(val, empty);
+                if (empty) { setText(null); return; }
+                setText(val);
+                setStyle("-fx-text-fill: " + Theme.TEXT_MUTED + ";" +
+                        "-fx-font-size: 11;" +
+                        "-fx-padding: 0 0 0 12;");
+            }
+        });
+
+        table.getColumns().addAll(nameCol, statusCol, dirCol, modeCol, lastCol, heartbeatCol);
         return table;
     }
 
@@ -219,16 +237,18 @@ public class JobTablePanel {
                         "-fx-border-color: " + Theme.BORDER + ";" +
                         "-fx-border-width: 1 0 0 0;");
 
-        Button startBtn  = pillBtn("Start",  Theme.SUCCESS);
-        Button stopBtn   = pillBtn("Stop",   Theme.DANGER);
-        Button editBtn   = pillBtn("Edit",   Theme.TEXT_SECONDARY);
-        Button deleteBtn = pillBtn("Delete", Theme.DANGER);
+        Button startBtn   = pillBtn("Start",   Theme.SUCCESS);
+        Button stopBtn    = pillBtn("Stop",    Theme.DANGER);
+        Button restartBtn = pillBtn("Restart", Theme.ACCENT);
+        Button editBtn    = pillBtn("Edit",    Theme.TEXT_SECONDARY);
+        Button deleteBtn  = pillBtn("Delete",  Theme.DANGER);
 
-        startBtn.setOnAction(e  -> actOnSelected(j -> client.startJob(j.getId())));
-        stopBtn.setOnAction(e   -> actOnSelected(j -> client.stopJob(j.getId())));
-        editBtn.setOnAction(e   -> actOnSelected(j ->
+        startBtn.setOnAction(e   -> actOnSelected(j -> client.startJob(j.getId())));
+        stopBtn.setOnAction(e    -> actOnSelected(j -> client.stopJob(j.getId())));
+        restartBtn.setOnAction(e -> actOnSelected(j -> client.restartJob(j.getId())));
+        editBtn.setOnAction(e    -> actOnSelected(j ->
                 new JobEditDialog(root.getScene().getWindow(), client, j).show()));
-        deleteBtn.setOnAction(e -> actOnSelected(j -> {
+        deleteBtn.setOnAction(e  -> actOnSelected(j -> {
             Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
                     "Delete job '" + j.getName() + "'?",
                     ButtonType.YES, ButtonType.NO);
@@ -238,7 +258,7 @@ public class JobTablePanel {
             });
         }));
 
-        footer.getChildren().addAll(startBtn, stopBtn, editBtn, deleteBtn);
+        footer.getChildren().addAll(startBtn, stopBtn, restartBtn, editBtn, deleteBtn);
         return footer;
     }
 

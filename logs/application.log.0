@@ -826,3 +826,1043 @@ Jun 30, 2026 8:42:38 PM com.filewatcherservice.service.ServiceWebSocketServer on
 INFO: UI connected: /127.0.0.1:50722
 Jun 30, 2026 8:42:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
 INFO: UI connected: /127.0.0.1:64116
+Jun 30, 2026 9:30:35 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:50722
+Jun 30, 2026 9:30:36 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64116
+Jun 30, 2026 9:30:37 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jun 30, 2026 9:30:37 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jun 30, 2026 9:30:38 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jun 30, 2026 9:30:38 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jun 30, 2026 9:30:39 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jun 30, 2026 9:30:39 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jun 30, 2026 9:30:39 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jun 30, 2026 9:30:39 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jun 30, 2026 9:30:40 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55727
+Jun 30, 2026 9:30:41 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:50712
+Jun 30, 2026 10:33:39 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 0 job(s) loaded from database
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jun 30, 2026 10:36:01 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jun 30, 2026 10:36:03 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:53104
+Jun 30, 2026 10:36:06 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:53105
+Jun 30, 2026 10:36:06 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:53106
+Jun 30, 2026 10:36:11 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:53106
+Jun 30, 2026 10:36:16 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:53111
+Jun 30, 2026 10:42:32 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 12:43:00 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:53105
+Jul 01, 2026 12:43:00 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:53104
+Jul 01, 2026 12:43:00 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:53111
+Jul 01, 2026 12:43:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:01 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:01 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:01 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:01 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:01 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:01 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:02 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:02 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:02 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:02 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:06 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62970
+Jul 01, 2026 12:43:06 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62969
+Jul 01, 2026 12:43:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:09 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:09 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:09 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62971
+Jul 01, 2026 12:43:09 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:09 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:10 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:10 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:10 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:10 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:10 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:10 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:10 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:10 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:11 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:14 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:15 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:15 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:15 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:15 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:15 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:15 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:15 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:15 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:16 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:16 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:16 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:16 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:16 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:16 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:16 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:16 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:17 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:17 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:17 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:17 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:17 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:17 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:18 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:18 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:19 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:19 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 12:43:20 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 12:50:46 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:62971
+Jul 01, 2026 12:50:46 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:62970
+Jul 01, 2026 12:50:46 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:62969
+Jul 01, 2026 1:48:05 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61943
+Jul 01, 2026 1:48:05 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61945
+Jul 01, 2026 1:48:05 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61944
+Jul 01, 2026 2:46:55 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:61943
+Jul 01, 2026 2:46:55 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:61944
+Jul 01, 2026 2:46:55 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:61945
+Jul 01, 2026 2:47:00 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:58179
+Jul 01, 2026 2:47:00 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:58180
+Jul 01, 2026 2:47:00 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:58181
+Jul 01, 2026 3:48:59 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:58179
+Jul 01, 2026 3:48:59 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:58180
+Jul 01, 2026 3:48:59 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:58181
+Jul 01, 2026 3:48:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 3:48:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 3:48:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 3:48:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 3:49:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 3:49:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 3:49:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 3:49:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 3:49:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 3:49:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 3:49:04 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59382
+Jul 01, 2026 3:49:04 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59383
+Jul 01, 2026 3:49:04 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59381
+Jul 01, 2026 4:53:27 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:59382
+Jul 01, 2026 4:53:27 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:27 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:28 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:28 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:29 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:29 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:29 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:29 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:30 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:30 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:30 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:30 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:31 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:31 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:31 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:31 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:32 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:32 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:32 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:32 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:32 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59706
+Jul 01, 2026 4:53:33 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:33 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:33 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:33 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:33 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:33 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:33 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:33 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:34 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:36 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:36 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:36 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:36 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:36 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:36 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:36 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:36 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:37 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:38 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:39 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:40 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 4:53:40 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 4:53:43 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:59383
+Jul 01, 2026 4:53:43 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:59381
+Jul 01, 2026 4:53:48 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:51866
+Jul 01, 2026 4:53:48 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:51867
+Jul 01, 2026 5:51:57 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:59706
+Jul 01, 2026 5:51:57 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:57 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:57 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:57 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:57 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:57 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:58 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:51:59 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:00 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:01 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:01 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:01 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:01 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:01 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:01 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:01 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:01 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64175
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:02 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:03 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:05 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:06 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:07 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:07 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:07 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:52:07 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:52:13 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:51866
+Jul 01, 2026 5:52:13 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:51867
+Jul 01, 2026 5:52:18 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60164
+Jul 01, 2026 5:52:18 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60165
+Jul 01, 2026 7:01:04 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64175
+Jul 01, 2026 7:01:04 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:60164
+Jul 01, 2026 7:01:04 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:60165
+Jul 01, 2026 7:01:04 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 7:01:04 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 7:01:09 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52161
+Jul 01, 2026 7:01:09 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52165
+Jul 01, 2026 7:01:09 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52162
+Jul 01, 2026 8:04:24 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:52161
+Jul 01, 2026 8:04:24 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:52165
+Jul 01, 2026 8:04:24 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:52162
+Jul 01, 2026 8:04:29 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:58501
+Jul 01, 2026 8:04:29 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:58502
+Jul 01, 2026 8:04:29 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:58503
+Jul 01, 2026 9:02:28 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:58502
+Jul 01, 2026 9:02:28 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:58501
+Jul 01, 2026 9:02:28 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:58503
+Jul 01, 2026 9:02:28 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 9:02:28 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 9:02:33 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64295
+Jul 01, 2026 9:02:33 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64296
+Jul 01, 2026 9:02:33 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64297
+Jul 01, 2026 10:06:34 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64296
+Jul 01, 2026 10:06:34 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:06:34 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64295
+Jul 01, 2026 10:06:34 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:06:34 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64297
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:06:35 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:06:40 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63696
+Jul 01, 2026 10:06:40 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63697
+Jul 01, 2026 10:06:40 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63698
+Jul 01, 2026 10:14:10 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:63697
+Jul 01, 2026 10:14:10 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:63698
+Jul 01, 2026 10:14:10 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:63696
+Jul 01, 2026 10:14:15 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63729
+Jul 01, 2026 10:14:15 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63730
+Jul 01, 2026 10:14:15 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63731
+Jul 01, 2026 10:27:11 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:63729
+Jul 01, 2026 10:27:11 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:63730
+Jul 01, 2026 10:27:11 AM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:63731
+Jul 01, 2026 10:27:11 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:11 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:12 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:27:13 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:32:33 AM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 10:32:33 AM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 10:32:36 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63757
+Jul 01, 2026 10:32:37 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63759
+Jul 01, 2026 10:32:37 AM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63760
+Jul 01, 2026 10:51:38 AM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...

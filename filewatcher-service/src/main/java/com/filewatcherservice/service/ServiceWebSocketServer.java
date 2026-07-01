@@ -6,6 +6,8 @@ import com.filewatchercommon.model.WatchJob;
 import com.filewatchercommon.service.NotificationService;
 import com.filewatchercommon.ws.WsCommands;
 import com.filewatchercommon.ws.WsTypes;
+import com.filewatcherservice.config.AppConfig;
+import com.filewatcherservice.config.ConfigLoader;
 import com.google.gson.*;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
@@ -14,6 +16,7 @@ import org.java_websocket.server.WebSocketServer;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -35,13 +38,15 @@ import java.util.logging.Logger;
  * Receives commands from UI (cmd field):
  *   GET_JOBS, START_JOB, STOP_JOB, START_ALL, STOP_ALL, ADD_JOB, UPDATE_JOB,
  *   DELETE_JOB, HEALTH, GET_CREDENTIALS, SAVE_CREDENTIAL, DELETE_CREDENTIAL,
- *   TEST_CREDENTIAL
+ *   TEST_CREDENTIAL, GET_CONFIGURATION, UPDATE_CONFIGURATION
  *
  * Pushes events to UI (type field):
  *   INIT        — full job list on connect
  *   JOB_STATE   — job status changed
  *   EVENT       — file transfer event
  *   NOTIFICATION — error notification
+ *   CONFIGURATION — current AppConfig (reply to GET_CONFIGURATION, and
+ *                   broadcast to all clients after UPDATE_CONFIGURATION)
  */
 public class ServiceWebSocketServer extends WebSocketServer {
 
@@ -50,6 +55,7 @@ public class ServiceWebSocketServer extends WebSocketServer {
     private final ServiceManager      serviceManager;
     private final FileWatcherService  watcherService;
     private final NotificationService notificationService;
+    private final AppConfig           config;
     private final int                 port;
 
     private final long serviceStartMs = System.currentTimeMillis();
@@ -65,12 +71,14 @@ public class ServiceWebSocketServer extends WebSocketServer {
     public ServiceWebSocketServer(String host, int port,
                                   ServiceManager serviceManager,
                                   FileWatcherService watcherService,
-                                  NotificationService notificationService) {
+                                  NotificationService notificationService,
+                                  AppConfig config) {
         super(new InetSocketAddress(host, port));
         this.port                = port;
         this.serviceManager      = serviceManager;
         this.watcherService      = watcherService;
         this.notificationService = notificationService;
+        this.config              = config;
         setReuseAddr(true);
         wireListeners();
     }
@@ -79,8 +87,9 @@ public class ServiceWebSocketServer extends WebSocketServer {
     public ServiceWebSocketServer(int port,
                                   ServiceManager serviceManager,
                                   FileWatcherService watcherService,
-                                  NotificationService notificationService) {
-        this("localhost", port, serviceManager, watcherService, notificationService);
+                                  NotificationService notificationService,
+                                  AppConfig config) {
+        this("localhost", port, serviceManager, watcherService, notificationService, config);
     }
 
     // ── Wire service listeners → broadcast to all UI clients ─────────────────
@@ -164,6 +173,74 @@ public class ServiceWebSocketServer extends WebSocketServer {
         return reply.toString();
     }
 
+    // Configuration — GET_CONFIGURATION reply and UPDATE_CONFIGURATION confirmation push share this shape
+    private String buildConfigReply() {
+        JsonObject reply = new JsonObject();
+        reply.addProperty("type", WsTypes.CONFIGURATION);
+        reply.add("config", GSON.toJsonTree(config));
+        return reply.toString();
+    }
+
+    /**
+     * Applies an UPDATE_CONFIGURATION payload to the live AppConfig instance,
+     * persists it back to services.json, and hot-applies the fields that can
+     * take effect without a restart (currently: log level). Fields that can't
+     * be hot-applied (websocketHost/websocketPort, schedulerThreadPoolSize,
+     * maxConcurrentTransfers — these are baked into already-constructed
+     * objects: the bound server socket, the Scheduler's thread pool, and
+     * FileWatcherService's watchPool) are still persisted so they take effect
+     * on the next service restart, but are intentionally not mutated on the
+     * live objects, since doing so wouldn't actually change running behaviour
+     * and would just make the in-memory config lie about what's active.
+     *
+     * Unknown/missing fields in the payload are left untouched — this mirrors
+     * Gson's "partial JSON is safe" behaviour that ConfigLoader.load() already
+     * relies on, so a UI form that only sends a subset of fields can't zero
+     * out the rest.
+     */
+    private void applyConfigUpdate(JsonObject patch) {
+        if (patch == null) return;
+
+        if (patch.has("defaultIntervalSeconds"))
+            config.defaultIntervalSeconds = patch.get("defaultIntervalSeconds").getAsInt();
+        if (patch.has("pollingFallbackEnabled"))
+            config.pollingFallbackEnabled = patch.get("pollingFallbackEnabled").getAsBoolean();
+        if (patch.has("logMaxFileSizeMb"))
+            config.logMaxFileSizeMb = patch.get("logMaxFileSizeMb").getAsInt();
+        if (patch.has("logMaxFileCount"))
+            config.logMaxFileCount = patch.get("logMaxFileCount").getAsInt();
+        if (patch.has("heartbeatIntervalSeconds"))
+            config.heartbeatIntervalSeconds = patch.get("heartbeatIntervalSeconds").getAsInt();
+        if (patch.has("sshConnectTimeoutMs"))
+            config.sshConnectTimeoutMs = patch.get("sshConnectTimeoutMs").getAsInt();
+        if (patch.has("sftpChannelTimeoutMs"))
+            config.sftpChannelTimeoutMs = patch.get("sftpChannelTimeoutMs").getAsInt();
+
+        if (patch.has("logLevel")) {
+            String level = patch.get("logLevel").getAsString();
+            config.logLevel = level;
+            try {
+                Logger.getLogger("").setLevel(Level.parse(level.toUpperCase()));
+                LOG.info("Log level hot-applied: " + level);
+            } catch (IllegalArgumentException e) {
+                LOG.warning("UPDATE_CONFIGURATION sent unknown logLevel '" + level + "', ignoring hot-apply");
+            }
+        }
+
+        // Persisted but not hot-applied — see method javadoc.
+        if (patch.has("websocketHost"))
+            config.websocketHost = patch.get("websocketHost").getAsString();
+        if (patch.has("websocketPort"))
+            config.websocketPort = patch.get("websocketPort").getAsInt();
+        if (patch.has("schedulerThreadPoolSize"))
+            config.schedulerThreadPoolSize = patch.get("schedulerThreadPoolSize").getAsInt();
+        if (patch.has("maxConcurrentTransfers"))
+            config.maxConcurrentTransfers = patch.get("maxConcurrentTransfers").getAsInt();
+
+        ConfigLoader.save(config);
+        LOG.info("Configuration updated via UPDATE_CONFIGURATION: " + config);
+    }
+
     // ── WebSocket lifecycle ───────────────────────────────────────────────────
 
     @Override
@@ -241,6 +318,12 @@ public class ServiceWebSocketServer extends WebSocketServer {
                     conn.send(okReply());
                 }
                 case WsCommands.HEALTH -> conn.send(buildHealthReply());
+                case WsCommands.GET_CONFIGURATION -> conn.send(buildConfigReply());
+                case WsCommands.UPDATE_CONFIGURATION -> {
+                    applyConfigUpdate(json.getAsJsonObject("config"));
+                    broadcast(buildConfigReply());
+                    conn.send(okReply());
+                }
                 case WsCommands.GET_CREDENTIALS -> {
                     List<CredentialMessage> msgs = watcherService.getCredentialStore()
                             .getAll().stream()

@@ -35,6 +35,7 @@ public class FileWatcherService {
     private static final Logger LOG = Logger.getLogger(FileWatcherService.class.getName());
 
     private static final String POLLING_SUFFIX = ":polling";
+    private static final String HEARTBEAT_SUFFIX = ":heartbeat";
 
     // ── Internal state ────────────────────────────────────────────────────────
 
@@ -124,6 +125,17 @@ public class FileWatcherService {
                 "Watcher started for job: " + job.getName()));
 
         runningJobs.put(jobId, watchPool.submit(() -> runWatcher(job)));
+
+        // Per-job liveness tick: independent of the watcher mechanism (NIO loop,
+        // polling, or remote exec) so it keeps firing even on connection types
+        // that don't have a natural "tick" of their own (e.g. blocking remote
+        // exec readLine). Mirrors the global heartbeat cadence from AppConfig,
+        // but pushed per job to the UI instead of only logged.
+        long heartbeatSeconds = config.heartbeatIntervalSeconds > 0
+                ? config.heartbeatIntervalSeconds
+                : 30;
+        scheduler.scheduleRepeating(jobId + HEARTBEAT_SUFFIX,
+                () -> touchHeartbeat(jobId), heartbeatSeconds);
     }
 
     public void stopJob(String jobId) {
@@ -131,6 +143,7 @@ public class FileWatcherService {
         if (future != null) future.cancel(true);
 
         scheduler.cancel(jobId + POLLING_SUFFIX);
+        scheduler.cancel(jobId + HEARTBEAT_SUFFIX);
 
         WatchService ws = watchServices.remove(jobId);
         if (ws != null) {
@@ -776,15 +789,30 @@ public class FileWatcherService {
 
     private void markTransferring(WatchJob job, String filename) {
         job.setStatus(WatchJob.Status.TRANSFERRING);
+        job.setLastHeartbeat(LocalDateTime.now());
         notifyState(job);
         emit(new TransferEvent(job.getId(), job.getName(),
                 TransferEvent.EventType.DETECTED, "Detected: " + filename, filename, 0));
+    }
+
+    /**
+     * Per-job liveness tick, invoked on the schedule registered in startJob().
+     * Only updates/broadcasts while the job is still actively tracked and not
+     * already IDLE — a stopped or removed job should stop reporting heartbeats
+     * rather than appearing falsely alive.
+     */
+    private void touchHeartbeat(String jobId) {
+        WatchJob job = jobs.get(jobId);
+        if (job == null || job.getStatus() == WatchJob.Status.IDLE) return;
+        job.setLastHeartbeat(LocalDateTime.now());
+        notifyState(job);
     }
 
     private void recordSuccess(WatchJob job, String filename, long size) {
         job.setFilesTransferred(job.getFilesTransferred() + 1);
         job.setBytesTransferred(job.getBytesTransferred() + size);
         job.setLastTransfer(LocalDateTime.now());
+        job.setLastHeartbeat(LocalDateTime.now());
         emit(new TransferEvent(job.getId(), job.getName(), TransferEvent.EventType.TRANSFERRED,
                 "Transferred: " + filename + " (" + formatBytes(size) + ")", filename, size));
     }

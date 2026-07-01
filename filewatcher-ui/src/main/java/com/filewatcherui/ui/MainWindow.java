@@ -48,6 +48,8 @@ public class MainWindow {
         CredentialsPanel credentialsPanel = new CredentialsPanel(client);
         HealthPanel      healthPanel      = new HealthPanel(client);
         logsPanel = new LogsPanel(client);
+        DashboardPanel dashboardPanel = new DashboardPanel(client);
+        SettingsPanel  settingsPanel  = new SettingsPanel();
         notificationPanel = new NotificationPanel(notificationService, client);
         notificationPanel.setVisible(false);
 
@@ -104,11 +106,13 @@ public class MainWindow {
         tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         tabs.setStyle("-fx-background-color: " + Theme.BG_SURFACE + ";");
 
-        Tab jobsTab   = new Tab("Watch Jobs",     mainSplit);
-        Tab credsTab  = new Tab("Credentials",    credentialsPanel.getRoot());
-        Tab healthTab = new Tab("Service Health", healthPanel.getRoot());
-        Tab logsTab   = new Tab("Logs",           logsPanel.getRoot());
-        tabs.getTabs().addAll(jobsTab, credsTab, healthTab, logsTab);
+        Tab dashboardTab = new Tab("Dashboard",          dashboardPanel.getRoot());
+        Tab jobsTab      = new Tab("Service Management", mainSplit);
+        Tab logsTab      = new Tab("Logs",                logsPanel.getRoot());
+        Tab settingsTab  = new Tab("Settings",            settingsPanel.getRoot());
+        Tab credsTab     = new Tab("Credentials",         credentialsPanel.getRoot());
+        Tab healthTab    = new Tab("Service Health",      healthPanel.getRoot());
+        tabs.getTabs().addAll(dashboardTab, jobsTab, logsTab, settingsTab, credsTab, healthTab);
 
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: " + Theme.BG_BASE + ";");

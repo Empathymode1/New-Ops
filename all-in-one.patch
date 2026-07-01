@@ -1,0 +1,1060 @@
+From 8dab4dd962f1e464ec8de8ef98e5e7886dcb53ac Mon Sep 17 00:00:00 2001
+From: Dev <dev@example.com>
+Date: Tue, 30 Jun 2026 16:53:39 +0000
+Subject: [PATCH 1/3] Wire per-job heartbeat: WatchJob.lastHeartbeat tracked by
+ FileWatcherService and surfaced in JobTablePanel
+
+- WatchJob gains a lastHeartbeat field, distinct from lastTransfer, with
+  getter/setter. Pushed over the same WatchJob WebSocket payload that
+  already carries job state (JOB_STATE / INIT), so no new wire DTO needed.
+- FileWatcherService schedules a per-job heartbeat tick (via the existing
+  Scheduler, keyed jobId:heartbeat) on startJob(), cancelled on stopJob().
+  Interval follows AppConfig.heartbeatIntervalSeconds (falls back to 30s
+  if that's 0/disabled), so it's independent of each watcher's own
+  mechanism (NIO loop, polling, or blocking remote exec) and ticks even
+  for connection types with no natural per-event tick of their own.
+  touchHeartbeat() is a no-op once a job goes IDLE, so a stopped job
+  stops reporting liveness instead of looking falsely alive.
+  recordSuccess()/markTransferring() also stamp lastHeartbeat so the UI
+  reflects real activity immediately rather than waiting for the next
+  scheduled tick.
+- JobTablePanel now renders a real 'Last Heartbeat' column backed by
+  WatchJob.getLastHeartbeat(), alongside the existing 'Last Transfer'
+  column, instead of one column standing in for both.
+---
+ .../com/filewatchercommon/model/WatchJob.java |  8 ++++++
+ .../service/FileWatcherService.java           | 28 +++++++++++++++++++
+ .../com/filewatcherui/ui/JobTablePanel.java   | 20 ++++++++++++-
+ 3 files changed, 55 insertions(+), 1 deletion(-)
+
+diff --git a/filewatcher-common/src/main/java/com/filewatchercommon/model/WatchJob.java b/filewatcher-common/src/main/java/com/filewatchercommon/model/WatchJob.java
+index 745dbf7..4b3ef96 100644
+--- a/filewatcher-common/src/main/java/com/filewatchercommon/model/WatchJob.java
++++ b/filewatcher-common/src/main/java/com/filewatchercommon/model/WatchJob.java
+@@ -43,6 +43,11 @@ public class WatchJob {
+     private long filesTransferred;
+     private long bytesTransferred;
+     private LocalDateTime lastTransfer;
++    // Per-job liveness tick — distinct from lastTransfer. Updated whenever the
++    // job's watcher (NIO loop, polling tick, or remote-exec heartbeat task) is
++    // confirmed alive, regardless of whether a file actually moved. See
++    // FileWatcherService.touchHeartbeat().
++    private LocalDateTime lastHeartbeat;
+     private LocalDateTime createdAt;
+     private String lastError;
+     private int watchDepth;
+@@ -139,6 +144,9 @@ public class WatchJob {
+     public LocalDateTime getLastTransfer() { return lastTransfer; }
+     public void setLastTransfer(LocalDateTime lastTransfer) { this.lastTransfer = lastTransfer; }
+ 
++    public LocalDateTime getLastHeartbeat() { return lastHeartbeat; }
++    public void setLastHeartbeat(LocalDateTime lastHeartbeat) { this.lastHeartbeat = lastHeartbeat; }
++
+     public LocalDateTime getCreatedAt() { return createdAt; }
+ 
+     public String getLastError() { return lastError; }
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/service/FileWatcherService.java b/filewatcher-service/src/main/java/com/filewatcherservice/service/FileWatcherService.java
+index 7feb831..8dbd80a 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/service/FileWatcherService.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/service/FileWatcherService.java
+@@ -35,6 +35,7 @@ public class FileWatcherService {
+     private static final Logger LOG = Logger.getLogger(FileWatcherService.class.getName());
+ 
+     private static final String POLLING_SUFFIX = ":polling";
++    private static final String HEARTBEAT_SUFFIX = ":heartbeat";
+ 
+     // ── Internal state ────────────────────────────────────────────────────────
+ 
+@@ -124,6 +125,17 @@ public class FileWatcherService {
+                 "Watcher started for job: " + job.getName()));
+ 
+         runningJobs.put(jobId, watchPool.submit(() -> runWatcher(job)));
++
++        // Per-job liveness tick: independent of the watcher mechanism (NIO loop,
++        // polling, or remote exec) so it keeps firing even on connection types
++        // that don't have a natural "tick" of their own (e.g. blocking remote
++        // exec readLine). Mirrors the global heartbeat cadence from AppConfig,
++        // but pushed per job to the UI instead of only logged.
++        long heartbeatSeconds = config.heartbeatIntervalSeconds > 0
++                ? config.heartbeatIntervalSeconds
++                : 30;
++        scheduler.scheduleRepeating(jobId + HEARTBEAT_SUFFIX,
++                () -> touchHeartbeat(jobId), heartbeatSeconds);
+     }
+ 
+     public void stopJob(String jobId) {
+@@ -131,6 +143,7 @@ public class FileWatcherService {
+         if (future != null) future.cancel(true);
+ 
+         scheduler.cancel(jobId + POLLING_SUFFIX);
++        scheduler.cancel(jobId + HEARTBEAT_SUFFIX);
+ 
+         WatchService ws = watchServices.remove(jobId);
+         if (ws != null) {
+@@ -776,15 +789,30 @@ public class FileWatcherService {
+ 
+     private void markTransferring(WatchJob job, String filename) {
+         job.setStatus(WatchJob.Status.TRANSFERRING);
++        job.setLastHeartbeat(LocalDateTime.now());
+         notifyState(job);
+         emit(new TransferEvent(job.getId(), job.getName(),
+                 TransferEvent.EventType.DETECTED, "Detected: " + filename, filename, 0));
+     }
+ 
++    /**
++     * Per-job liveness tick, invoked on the schedule registered in startJob().
++     * Only updates/broadcasts while the job is still actively tracked and not
++     * already IDLE — a stopped or removed job should stop reporting heartbeats
++     * rather than appearing falsely alive.
++     */
++    private void touchHeartbeat(String jobId) {
++        WatchJob job = jobs.get(jobId);
++        if (job == null || job.getStatus() == WatchJob.Status.IDLE) return;
++        job.setLastHeartbeat(LocalDateTime.now());
++        notifyState(job);
++    }
++
+     private void recordSuccess(WatchJob job, String filename, long size) {
+         job.setFilesTransferred(job.getFilesTransferred() + 1);
+         job.setBytesTransferred(job.getBytesTransferred() + size);
+         job.setLastTransfer(LocalDateTime.now());
++        job.setLastHeartbeat(LocalDateTime.now());
+         emit(new TransferEvent(job.getId(), job.getName(), TransferEvent.EventType.TRANSFERRED,
+                 "Transferred: " + filename + " (" + formatBytes(size) + ")", filename, size));
+     }
+diff --git a/filewatcher-ui/src/main/java/com/filewatcherui/ui/JobTablePanel.java b/filewatcher-ui/src/main/java/com/filewatcherui/ui/JobTablePanel.java
+index 61ba36b..1d3a08a 100644
+--- a/filewatcher-ui/src/main/java/com/filewatcherui/ui/JobTablePanel.java
++++ b/filewatcher-ui/src/main/java/com/filewatcherui/ui/JobTablePanel.java
+@@ -205,7 +205,25 @@ public class JobTablePanel {
+             }
+         });
+ 
+-        table.getColumns().addAll(nameCol, statusCol, dirCol, modeCol, lastCol);
++        // Last heartbeat column — backed by WatchJob.lastHeartbeat (real per-job
++        // liveness tick from FileWatcherService), not a reuse of Last Transfer.
++        TableColumn<WatchJob, String> heartbeatCol = new TableColumn<>("Last Heartbeat");
++        heartbeatCol.setPrefWidth(130);
++        heartbeatCol.setCellValueFactory(c -> new javafx.beans.property.SimpleStringProperty(
++                c.getValue().getLastHeartbeat() != null
++                        ? c.getValue().getLastHeartbeat().format(FMT) : "—"));
++        heartbeatCol.setCellFactory(col -> new TableCell<>() {
++            @Override protected void updateItem(String val, boolean empty) {
++                super.updateItem(val, empty);
++                if (empty) { setText(null); return; }
++                setText(val);
++                setStyle("-fx-text-fill: " + Theme.TEXT_MUTED + ";" +
++                        "-fx-font-size: 11;" +
++                        "-fx-padding: 0 0 0 12;");
++            }
++        });
++
++        table.getColumns().addAll(nameCol, statusCol, dirCol, modeCol, lastCol, heartbeatCol);
+         return table;
+     }
+ 
+-- 
+2.43.0
+
+
+From 4edb44f4901aeecc39c3360fe8eec8c6fcd43032 Mon Sep 17 00:00:00 2001
+From: Dev <dev@example.com>
+Date: Wed, 1 Jul 2026 05:10:15 +0000
+Subject: [PATCH 2/3] Wire settings backend: UPDATE_CONFIGURATION handler,
+ applyConfigUpdate, ConfigLoader.save, AppConfig injection
+
+---
+ .../com/filewatchercommon/ws/WsCommands.java  |  5 +
+ .../com/filewatchercommon/ws/WsTypes.java     |  3 +
+ .../config/ConfigLoader.java                  | 20 ++++
+ .../service/ServiceMain.java                  |  2 +-
+ .../service/ServiceWebSocketServer.java       | 91 ++++++++++++++++++-
+ .../filewatcherui/service/ServiceClient.java  | 28 ++++++
+ 6 files changed, 144 insertions(+), 5 deletions(-)
+
+diff --git a/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsCommands.java b/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsCommands.java
+index 8056904..d390b19 100644
+--- a/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsCommands.java
++++ b/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsCommands.java
+@@ -22,6 +22,11 @@ public final class WsCommands {
+     public static final String TEST_CREDENTIAL    = "TEST_CREDENTIAL";
+     public static final String HEALTH             = "HEALTH";
+ 
++    /** §9 of the architecture doc: applies AppConfig changes and hot-applies/persists them. */
++    public static final String UPDATE_CONFIGURATION = "UPDATE_CONFIGURATION";
++    /** Not in §9 by name, but needed so SettingsPanel can populate its form with the live config before editing. */
++    public static final String GET_CONFIGURATION     = "GET_CONFIGURATION";
++
+     /** Fetches transfer_logs rows, filtered by optional jobId/eventType/searchText. */
+     public static final String GET_LOGS           = "GET_LOGS";
+     /** Same filters as GET_LOGS, but returns the result as a single CSV string for client-side save. */
+diff --git a/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsTypes.java b/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsTypes.java
+index 54c961a..dbe63f1 100644
+--- a/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsTypes.java
++++ b/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsTypes.java
+@@ -14,6 +14,9 @@ public final class WsTypes {
+     public static final String TEST_RESULT  = "TEST_RESULT";
+     public static final String HEALTH       = "HEALTH";
+ 
++    /** Reply to GET_CONFIGURATION and confirmation push after UPDATE_CONFIGURATION — carries the current AppConfig. */
++    public static final String CONFIGURATION = "CONFIGURATION";
++
+     /** Reply to GET_LOGS — carries a list of LogEntryMessage. */
+     public static final String LOGS         = "LOGS";
+     /** Reply to EXPORT_LOGS — carries a single CSV string field. */
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/config/ConfigLoader.java b/filewatcher-service/src/main/java/com/filewatcherservice/config/ConfigLoader.java
+index 6b95d02..00a0559 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/config/ConfigLoader.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/config/ConfigLoader.java
+@@ -76,6 +76,26 @@ public class ConfigLoader {
+         }
+     }
+ 
++    /**
++     * Persist {@code config} back to services.json at the same path load()
++     * would resolve, so a config edited at runtime (e.g. via
++     * UPDATE_CONFIGURATION over the WebSocket) survives a service restart.
++     * Mirrors writeDefaults()'s error handling: logs and returns rather than
++     * throwing, since a failed write shouldn't crash a running service.
++     */
++    public static void save(AppConfig config) {
++        Path configPath = resolveConfigPath();
++        try {
++            if (configPath.getParent() != null) {
++                Files.createDirectories(configPath.getParent());
++            }
++            Files.writeString(configPath, GSON.toJson(config), StandardCharsets.UTF_8);
++            LOG.info("Saved updated config to: " + configPath.toAbsolutePath());
++        } catch (IOException e) {
++            LOG.warning("Could not save services.json: " + e.getMessage());
++        }
++    }
++
+     // ── Path resolution ───────────────────────────────────────────────────────
+ 
+     /**
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java
+index c9d8dba..3e8f91d 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java
+@@ -90,7 +90,7 @@ public class ServiceMain {
+         // ── Phase 8: Start WebSocket Server ───────────────────────────────────
+         LOG.info("[Phase 8] Starting WebSocket server on port " + config.websocketPort + "...");
+         ServiceWebSocketServer wsServer = new ServiceWebSocketServer(
+-                config.websocketHost, config.websocketPort, serviceManager, watcherService, notificationService);
++                config.websocketHost, config.websocketPort, serviceManager, watcherService, notificationService, config);
+         wsServer.start();
+ 
+         // ── Phase 9 & 10: UI Connects / Dashboard Ready ───────────────────────
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
+index 2edb672..e1a8e75 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
+@@ -6,6 +6,8 @@ import com.filewatchercommon.model.WatchJob;
+ import com.filewatchercommon.service.NotificationService;
+ import com.filewatchercommon.ws.WsCommands;
+ import com.filewatchercommon.ws.WsTypes;
++import com.filewatcherservice.config.AppConfig;
++import com.filewatcherservice.config.ConfigLoader;
+ import com.google.gson.*;
+ import org.java_websocket.WebSocket;
+ import org.java_websocket.handshake.ClientHandshake;
+@@ -14,6 +16,7 @@ import org.java_websocket.server.WebSocketServer;
+ import java.net.InetSocketAddress;
+ import java.util.ArrayList;
+ import java.util.List;
++import java.util.logging.Level;
+ import java.util.logging.Logger;
+ 
+ /**
+@@ -35,13 +38,15 @@ import java.util.logging.Logger;
+  * Receives commands from UI (cmd field):
+  *   GET_JOBS, START_JOB, STOP_JOB, START_ALL, STOP_ALL, ADD_JOB, UPDATE_JOB,
+  *   DELETE_JOB, HEALTH, GET_CREDENTIALS, SAVE_CREDENTIAL, DELETE_CREDENTIAL,
+- *   TEST_CREDENTIAL
++ *   TEST_CREDENTIAL, GET_CONFIGURATION, UPDATE_CONFIGURATION
+  *
+  * Pushes events to UI (type field):
+  *   INIT        — full job list on connect
+  *   JOB_STATE   — job status changed
+  *   EVENT       — file transfer event
+  *   NOTIFICATION — error notification
++ *   CONFIGURATION — current AppConfig (reply to GET_CONFIGURATION, and
++ *                   broadcast to all clients after UPDATE_CONFIGURATION)
+  */
+ public class ServiceWebSocketServer extends WebSocketServer {
+ 
+@@ -50,6 +55,7 @@ public class ServiceWebSocketServer extends WebSocketServer {
+     private final ServiceManager      serviceManager;
+     private final FileWatcherService  watcherService;
+     private final NotificationService notificationService;
++    private final AppConfig           config;
+     private final int                 port;
+ 
+     private final long serviceStartMs = System.currentTimeMillis();
+@@ -65,12 +71,14 @@ public class ServiceWebSocketServer extends WebSocketServer {
+     public ServiceWebSocketServer(String host, int port,
+                                   ServiceManager serviceManager,
+                                   FileWatcherService watcherService,
+-                                  NotificationService notificationService) {
++                                  NotificationService notificationService,
++                                  AppConfig config) {
+         super(new InetSocketAddress(host, port));
+         this.port                = port;
+         this.serviceManager      = serviceManager;
+         this.watcherService      = watcherService;
+         this.notificationService = notificationService;
++        this.config              = config;
+         setReuseAddr(true);
+         wireListeners();
+     }
+@@ -79,8 +87,9 @@ public class ServiceWebSocketServer extends WebSocketServer {
+     public ServiceWebSocketServer(int port,
+                                   ServiceManager serviceManager,
+                                   FileWatcherService watcherService,
+-                                  NotificationService notificationService) {
+-        this("localhost", port, serviceManager, watcherService, notificationService);
++                                  NotificationService notificationService,
++                                  AppConfig config) {
++        this("localhost", port, serviceManager, watcherService, notificationService, config);
+     }
+ 
+     // ── Wire service listeners → broadcast to all UI clients ─────────────────
+@@ -164,6 +173,74 @@ public class ServiceWebSocketServer extends WebSocketServer {
+         return reply.toString();
+     }
+ 
++    // Configuration — GET_CONFIGURATION reply and UPDATE_CONFIGURATION confirmation push share this shape
++    private String buildConfigReply() {
++        JsonObject reply = new JsonObject();
++        reply.addProperty("type", WsTypes.CONFIGURATION);
++        reply.add("config", GSON.toJsonTree(config));
++        return reply.toString();
++    }
++
++    /**
++     * Applies an UPDATE_CONFIGURATION payload to the live AppConfig instance,
++     * persists it back to services.json, and hot-applies the fields that can
++     * take effect without a restart (currently: log level). Fields that can't
++     * be hot-applied (websocketHost/websocketPort, schedulerThreadPoolSize,
++     * maxConcurrentTransfers — these are baked into already-constructed
++     * objects: the bound server socket, the Scheduler's thread pool, and
++     * FileWatcherService's watchPool) are still persisted so they take effect
++     * on the next service restart, but are intentionally not mutated on the
++     * live objects, since doing so wouldn't actually change running behaviour
++     * and would just make the in-memory config lie about what's active.
++     *
++     * Unknown/missing fields in the payload are left untouched — this mirrors
++     * Gson's "partial JSON is safe" behaviour that ConfigLoader.load() already
++     * relies on, so a UI form that only sends a subset of fields can't zero
++     * out the rest.
++     */
++    private void applyConfigUpdate(JsonObject patch) {
++        if (patch == null) return;
++
++        if (patch.has("defaultIntervalSeconds"))
++            config.defaultIntervalSeconds = patch.get("defaultIntervalSeconds").getAsInt();
++        if (patch.has("pollingFallbackEnabled"))
++            config.pollingFallbackEnabled = patch.get("pollingFallbackEnabled").getAsBoolean();
++        if (patch.has("logMaxFileSizeMb"))
++            config.logMaxFileSizeMb = patch.get("logMaxFileSizeMb").getAsInt();
++        if (patch.has("logMaxFileCount"))
++            config.logMaxFileCount = patch.get("logMaxFileCount").getAsInt();
++        if (patch.has("heartbeatIntervalSeconds"))
++            config.heartbeatIntervalSeconds = patch.get("heartbeatIntervalSeconds").getAsInt();
++        if (patch.has("sshConnectTimeoutMs"))
++            config.sshConnectTimeoutMs = patch.get("sshConnectTimeoutMs").getAsInt();
++        if (patch.has("sftpChannelTimeoutMs"))
++            config.sftpChannelTimeoutMs = patch.get("sftpChannelTimeoutMs").getAsInt();
++
++        if (patch.has("logLevel")) {
++            String level = patch.get("logLevel").getAsString();
++            config.logLevel = level;
++            try {
++                Logger.getLogger("").setLevel(Level.parse(level.toUpperCase()));
++                LOG.info("Log level hot-applied: " + level);
++            } catch (IllegalArgumentException e) {
++                LOG.warning("UPDATE_CONFIGURATION sent unknown logLevel '" + level + "', ignoring hot-apply");
++            }
++        }
++
++        // Persisted but not hot-applied — see method javadoc.
++        if (patch.has("websocketHost"))
++            config.websocketHost = patch.get("websocketHost").getAsString();
++        if (patch.has("websocketPort"))
++            config.websocketPort = patch.get("websocketPort").getAsInt();
++        if (patch.has("schedulerThreadPoolSize"))
++            config.schedulerThreadPoolSize = patch.get("schedulerThreadPoolSize").getAsInt();
++        if (patch.has("maxConcurrentTransfers"))
++            config.maxConcurrentTransfers = patch.get("maxConcurrentTransfers").getAsInt();
++
++        ConfigLoader.save(config);
++        LOG.info("Configuration updated via UPDATE_CONFIGURATION: " + config);
++    }
++
+     // ── WebSocket lifecycle ───────────────────────────────────────────────────
+ 
+     @Override
+@@ -241,6 +318,12 @@ public class ServiceWebSocketServer extends WebSocketServer {
+                     conn.send(okReply());
+                 }
+                 case WsCommands.HEALTH -> conn.send(buildHealthReply());
++                case WsCommands.GET_CONFIGURATION -> conn.send(buildConfigReply());
++                case WsCommands.UPDATE_CONFIGURATION -> {
++                    applyConfigUpdate(json.getAsJsonObject("config"));
++                    broadcast(buildConfigReply());
++                    conn.send(okReply());
++                }
+                 case WsCommands.GET_CREDENTIALS -> {
+                     List<CredentialMessage> msgs = watcherService.getCredentialStore()
+                             .getAll().stream()
+diff --git a/filewatcher-ui/src/main/java/com/filewatcherui/service/ServiceClient.java b/filewatcher-ui/src/main/java/com/filewatcherui/service/ServiceClient.java
+index 803c3b9..743e1bd 100644
+--- a/filewatcher-ui/src/main/java/com/filewatcherui/service/ServiceClient.java
++++ b/filewatcher-ui/src/main/java/com/filewatcherui/service/ServiceClient.java
+@@ -55,6 +55,7 @@ public class ServiceClient extends WebSocketClient {
+     private final List<RemoteDirListener> remoteDirListeners = new CopyOnWriteArrayList<>();
+     private final List<Consumer<List<LogEntryMessage>>> logsListeners = new CopyOnWriteArrayList<>();
+     private final List<Consumer<String>> logsExportListeners = new CopyOnWriteArrayList<>();
++    private final List<Consumer<JsonObject>> configListeners = new CopyOnWriteArrayList<>();
+ 
+ 
+     private static final int RECONNECT_DELAY_MS = 5_000;
+@@ -89,6 +90,8 @@ public class ServiceClient extends WebSocketClient {
+     }
+     public void addLogsListener(Consumer<List<LogEntryMessage>> l) { logsListeners.add(l); }
+     public void addLogsExportListener(Consumer<String> l) { logsExportListeners.add(l); }
++    /** Called with the current AppConfig (as raw JSON, since AppConfig lives in the service module) on GET_CONFIGURATION reply or after any UPDATE_CONFIGURATION is applied. */
++    public void addConfigListener(Consumer<JsonObject> l) { configListeners.add(l); }
+     // ── WebSocket lifecycle ───────────────────────────────────────────────────
+ 
+     @Override
+@@ -192,6 +195,10 @@ public class ServiceClient extends WebSocketClient {
+                     String csv = json.has("csv") ? json.get("csv").getAsString() : "";
+                     logsExportListeners.forEach(l -> l.accept(csv));
+                 }
++                case WsTypes.CONFIGURATION -> {
++                    JsonObject config = json.getAsJsonObject("config");
++                    configListeners.forEach(l -> l.accept(config));
++                }
+             }
+         } catch (Exception e) {
+             LOG.warning("Failed to handle pushed message: " + e.getMessage());
+@@ -304,6 +311,27 @@ public class ServiceClient extends WebSocketClient {
+         sendIfConnected(cmd);
+     }
+ 
++    // ── Configuration (Settings tab) ────────────────────────────────────────
++    /** Requests the live AppConfig from the service; arrives via a registered config listener. */
++    public void getConfiguration() {
++        JsonObject cmd = new JsonObject();
++        cmd.addProperty("cmd", WsCommands.GET_CONFIGURATION);
++        sendIfConnected(cmd);
++    }
++
++    /**
++     * Sends a (possibly partial) config patch to the service for
++     * UPDATE_CONFIGURATION. Only the fields present in {@code patch} are
++     * changed server-side — pass a JsonObject built from just the fields the
++     * Settings form actually edited so unrelated config isn't clobbered.
++     */
++    public void sendUpdateConfig(JsonObject patch) {
++        JsonObject cmd = new JsonObject();
++        cmd.addProperty("cmd", WsCommands.UPDATE_CONFIGURATION);
++        cmd.add("config", patch);
++        sendIfConnected(cmd);
++    }
++
+     // Test Connection
+     public void testCredential(String credId) {
+         JsonObject cmd = new JsonObject();
+-- 
+2.43.0
+
+
+From 56590be470641127b7bf33e1324f6a81a4684b39 Mon Sep 17 00:00:00 2001
+From: Dev <dev@example.com>
+Date: Wed, 1 Jul 2026 05:12:48 +0000
+Subject: [PATCH 3/3] Fix WsTypes.LIST_REMOTE_DIR_RESULT compile gap, add
+ RESTART_JOB backend, wire SettingsPanel + Settings tab
+
+---
+ .../model/TransferEvent.java                  |   2 +-
+ .../com/filewatchercommon/ws/WsCommands.java  |   8 +
+ .../com/filewatchercommon/ws/WsTypes.java     |   7 +
+ .../service/FileWatcherService.java           |  12 +
+ .../service/ServiceManager.java               |  18 +
+ .../service/ServiceWebSocketServer.java       |   5 +
+ .../filewatcherui/service/ServiceClient.java  |  13 +
+ .../com/filewatcherui/ui/JobTablePanel.java   |  19 +-
+ .../java/com/filewatcherui/ui/MainWindow.java |  16 +-
+ .../filewatcherui/ui/NotificationPanel.java   |   3 +-
+ .../com/filewatcherui/ui/SettingsPanel.java   | 322 ++++++++++++++++++
+ 11 files changed, 411 insertions(+), 14 deletions(-)
+ create mode 100644 filewatcher-ui/src/main/java/com/filewatcherui/ui/SettingsPanel.java
+
+diff --git a/filewatcher-common/src/main/java/com/filewatchercommon/model/TransferEvent.java b/filewatcher-common/src/main/java/com/filewatchercommon/model/TransferEvent.java
+index 73eb797..2e07b93 100644
+--- a/filewatcher-common/src/main/java/com/filewatchercommon/model/TransferEvent.java
++++ b/filewatcher-common/src/main/java/com/filewatchercommon/model/TransferEvent.java
+@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
+ 
+ public class TransferEvent {
+ 
+-    public enum EventType { DETECTED, TRANSFERRED, SKIPPED, ERROR, CONNECTED, DISCONNECTED, STARTED, STOPPED }
++    public enum EventType { DETECTED, TRANSFERRED, SKIPPED, ERROR, CONNECTED, DISCONNECTED, STARTED, STOPPED, RESTARTED }
+ 
+     private final LocalDateTime timestamp;
+     private final EventType type;
+diff --git a/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsCommands.java b/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsCommands.java
+index d390b19..09f0572 100644
+--- a/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsCommands.java
++++ b/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsCommands.java
+@@ -22,6 +22,14 @@ public final class WsCommands {
+     public static final String TEST_CREDENTIAL    = "TEST_CREDENTIAL";
+     public static final String HEALTH             = "HEALTH";
+ 
++    /**
++     * Atomic restart: stop + clear lastError + start, logged as a distinct
++     * RESTARTED event type. Unlike the UI's composite stop/start, this fires
++     * a single TransferEvent.EventType.RESTARTED so audit logs show "Restarted"
++     * rather than two separate STOPPED/STARTED entries.
++     */
++    public static final String RESTART_JOB = "RESTART_JOB";
++
+     /** §9 of the architecture doc: applies AppConfig changes and hot-applies/persists them. */
+     public static final String UPDATE_CONFIGURATION = "UPDATE_CONFIGURATION";
+     /** Not in §9 by name, but needed so SettingsPanel can populate its form with the live config before editing. */
+diff --git a/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsTypes.java b/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsTypes.java
+index dbe63f1..0685676 100644
+--- a/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsTypes.java
++++ b/filewatcher-common/src/main/java/com/filewatchercommon/ws/WsTypes.java
+@@ -17,6 +17,13 @@ public final class WsTypes {
+     /** Reply to GET_CONFIGURATION and confirmation push after UPDATE_CONFIGURATION — carries the current AppConfig. */
+     public static final String CONFIGURATION = "CONFIGURATION";
+ 
++    /**
++     * Reply to LIST_REMOTE_DIR — sent by ServiceWebSocketServer after browsing a
++     * remote path. Carries "path" (echoed), optional "entries" array, and an
++     * optional "error" string. Referenced by ServiceClient.listRemoteDirectory().
++     */
++    public static final String LIST_REMOTE_DIR_RESULT = "LIST_REMOTE_DIR_RESULT";
++
+     /** Reply to GET_LOGS — carries a list of LogEntryMessage. */
+     public static final String LOGS         = "LOGS";
+     /** Reply to EXPORT_LOGS — carries a single CSV string field. */
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/service/FileWatcherService.java b/filewatcher-service/src/main/java/com/filewatcherservice/service/FileWatcherService.java
+index 8dbd80a..d90f8da 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/service/FileWatcherService.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/service/FileWatcherService.java
+@@ -162,6 +162,18 @@ public class FileWatcherService {
+         }
+     }
+ 
++    /**
++     * Emits a RESTARTED event on behalf of ServiceManager.restart() so the
++     * event log shows a single "Restarted" entry instead of STOPPED+STARTED.
++     * Called after stop() and before the subsequent start(), so status is IDLE
++     * at this point and we do not push a state change here (startJob() does
++     * that when it transitions the job to WATCHING).
++     */
++    public void emitRestarted(WatchJob job) {
++        emit(new TransferEvent(job.getId(), job.getName(), TransferEvent.EventType.RESTARTED,
++                "Job restarted: " + job.getName()));
++    }
++
+     public void startAll() { jobs.keySet().forEach(this::startJob); }
+     public void stopAll()  { new ArrayList<>(jobs.keySet()).forEach(this::stopJob); }
+ 
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceManager.java b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceManager.java
+index 3bd1cf7..2411cdd 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceManager.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceManager.java
+@@ -91,6 +91,24 @@ public class ServiceManager {
+         service.stop();
+     }
+ 
++    /**
++     * Atomic restart: stop the job, clear its lastError so the UI badge resets,
++     * then start it again. Logs a distinct RESTARTED event instead of separate
++     * STOPPED + STARTED entries, making audit logs unambiguous about intent.
++     * Safe to call when the job is already IDLE — stop() is a no-op then.
++     */
++    public void restart(String id) {
++        WatchJob job = watcherEngine.getJob(id);
++        if (job == null) {
++            LOG.warning("ServiceManager: restart() — unknown job id " + id);
++            return;
++        }
++        stop(id);
++        job.setLastError(null);
++        watcherEngine.emitRestarted(job);
++        start(id);
++    }
++
+     public void startAll() {
+         services.values().forEach(s -> {
+             try { s.start(); } catch (Exception e) {
+diff --git a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
+index e1a8e75..850296a 100644
+--- a/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
++++ b/filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
+@@ -294,6 +294,11 @@ public class ServiceWebSocketServer extends WebSocketServer {
+                     serviceManager.stop(id);
+                     conn.send(okReply());
+                 }
++                case WsCommands.RESTART_JOB -> {
++                    String id = json.get("id").getAsString();
++                    serviceManager.restart(id);
++                    conn.send(okReply());
++                }
+                 case WsCommands.START_ALL -> {
+                     serviceManager.startAll();
+                     conn.send(okReply());
+diff --git a/filewatcher-ui/src/main/java/com/filewatcherui/service/ServiceClient.java b/filewatcher-ui/src/main/java/com/filewatcherui/service/ServiceClient.java
+index 743e1bd..8755d8a 100644
+--- a/filewatcher-ui/src/main/java/com/filewatcherui/service/ServiceClient.java
++++ b/filewatcher-ui/src/main/java/com/filewatcherui/service/ServiceClient.java
+@@ -222,6 +222,19 @@ public class ServiceClient extends WebSocketClient {
+         sendIfConnected(cmd);
+     }
+ 
++    /**
++     * Sends a RESTART_JOB command — atomic stop+clearError+start on the
++     * service, logged as a single RESTARTED event rather than STOPPED+STARTED.
++     * Prefer this over the composite stop()/start() when restart intent should
++     * be auditable as a distinct operation.
++     */
++    public void restartJob(String id) {
++        JsonObject cmd = new JsonObject();
++        cmd.addProperty("cmd", WsCommands.RESTART_JOB);
++        cmd.addProperty("id",  id);
++        sendIfConnected(cmd);
++    }
++
+     public void stopJob(String id) {
+         JsonObject cmd = new JsonObject();
+         cmd.addProperty("cmd", "STOP_JOB");
+diff --git a/filewatcher-ui/src/main/java/com/filewatcherui/ui/JobTablePanel.java b/filewatcher-ui/src/main/java/com/filewatcherui/ui/JobTablePanel.java
+index 1d3a08a..233a780 100644
+--- a/filewatcher-ui/src/main/java/com/filewatcherui/ui/JobTablePanel.java
++++ b/filewatcher-ui/src/main/java/com/filewatcherui/ui/JobTablePanel.java
+@@ -237,13 +237,16 @@ public class JobTablePanel {
+                         "-fx-border-color: " + Theme.BORDER + ";" +
+                         "-fx-border-width: 1 0 0 0;");
+ 
+-        Button startBtn  = pillBtn("Start",  Theme.SUCCESS);
+-        Button stopBtn   = pillBtn("Stop",   Theme.DANGER);
+-        Button editBtn   = pillBtn("Edit",   Theme.TEXT_SECONDARY);
+-        Button deleteBtn = pillBtn("Delete", Theme.DANGER);
+-
+-        startBtn.setOnAction(e  -> actOnSelected(j -> client.startJob(j.getId())));
+-        stopBtn.setOnAction(e   -> actOnSelected(j -> client.stopJob(j.getId())));
++        Button startBtn   = pillBtn("Start",   Theme.SUCCESS);
++        Button stopBtn    = pillBtn("Stop",    Theme.DANGER);
++        Button restartBtn = pillBtn("Restart", Theme.ACCENT);
++        Button editBtn    = pillBtn("Edit",    Theme.TEXT_SECONDARY);
++        Button deleteBtn  = pillBtn("Delete",  Theme.DANGER);
++
++        startBtn.setOnAction(e   -> actOnSelected(j -> client.startJob(j.getId())));
++        stopBtn.setOnAction(e    -> actOnSelected(j -> client.stopJob(j.getId())));
++        // Atomic restart: stops, clears lastError, starts, logs single RESTARTED event.
++        restartBtn.setOnAction(e -> actOnSelected(j -> client.restartJob(j.getId())));
+         editBtn.setOnAction(e   -> actOnSelected(j ->
+                 new JobEditDialog(root.getScene().getWindow(), client, j).show()));
+         deleteBtn.setOnAction(e -> actOnSelected(j -> {
+@@ -256,7 +259,7 @@ public class JobTablePanel {
+             });
+         }));
+ 
+-        footer.getChildren().addAll(startBtn, stopBtn, editBtn, deleteBtn);
++        footer.getChildren().addAll(startBtn, stopBtn, restartBtn, editBtn, deleteBtn);
+         return footer;
+     }
+ 
+diff --git a/filewatcher-ui/src/main/java/com/filewatcherui/ui/MainWindow.java b/filewatcher-ui/src/main/java/com/filewatcherui/ui/MainWindow.java
+index 9917ae6..403c0b9 100644
+--- a/filewatcher-ui/src/main/java/com/filewatcherui/ui/MainWindow.java
++++ b/filewatcher-ui/src/main/java/com/filewatcherui/ui/MainWindow.java
+@@ -25,6 +25,7 @@ public class MainWindow {
+     private  LogsPanel      logsPanel;
+     private       NotificationPanel notificationPanel;
+     private       Button            bellButton;
++    private       SettingsPanel     settingsPanel;
+     private       Label             badgeLabel;
+     private static final Logger LOG = Logger.getLogger(MainWindow.class.getName());
+ 
+@@ -47,7 +48,8 @@ public class MainWindow {
+ 
+         CredentialsPanel credentialsPanel = new CredentialsPanel(client);
+         HealthPanel      healthPanel      = new HealthPanel(client);
+-        logsPanel = new LogsPanel(client);
++        logsPanel     = new LogsPanel(client);
++        settingsPanel = new SettingsPanel(client);
+         notificationPanel = new NotificationPanel(notificationService, client);
+         notificationPanel.setVisible(false);
+ 
+@@ -107,8 +109,16 @@ public class MainWindow {
+         Tab jobsTab   = new Tab("Watch Jobs",     mainSplit);
+         Tab credsTab  = new Tab("Credentials",    credentialsPanel.getRoot());
+         Tab healthTab = new Tab("Service Health", healthPanel.getRoot());
+-        Tab logsTab   = new Tab("Logs",           logsPanel.getRoot());
+-        tabs.getTabs().addAll(jobsTab, credsTab, healthTab, logsTab);
++        Tab logsTab      = new Tab("Logs",     logsPanel.getRoot());
++        Tab settingsTab  = new Tab("Settings", settingsPanel.getRoot());
++
++        // Refresh settings form whenever the user navigates to the tab so it
++        // always shows the live config rather than a potentially stale snapshot.
++        settingsTab.setOnSelectionChanged(e -> {
++            if (settingsTab.isSelected()) settingsPanel.requestRefresh();
++        });
++
++        tabs.getTabs().addAll(jobsTab, credsTab, healthTab, logsTab, settingsTab);
+ 
+         BorderPane root = new BorderPane();
+         root.setStyle("-fx-background-color: " + Theme.BG_BASE + ";");
+diff --git a/filewatcher-ui/src/main/java/com/filewatcherui/ui/NotificationPanel.java b/filewatcher-ui/src/main/java/com/filewatcherui/ui/NotificationPanel.java
+index 28962cd..aafac19 100644
+--- a/filewatcher-ui/src/main/java/com/filewatcherui/ui/NotificationPanel.java
++++ b/filewatcher-ui/src/main/java/com/filewatcherui/ui/NotificationPanel.java
+@@ -149,8 +149,7 @@ public class NotificationPanel {
+                 "-fx-text-fill: " + Theme.ACCENT + ";");
+         restart.setOnAction(e -> {
+             n.markRead();
+-            client.stopJob(n.getJobId());
+-            client.startJob(n.getJobId());
++            client.restartJob(n.getJobId()); // atomic on service; logs RESTARTED, not STOPPED+STARTED
+             refresh(notificationService.getAll());
+         });
+ 
+diff --git a/filewatcher-ui/src/main/java/com/filewatcherui/ui/SettingsPanel.java b/filewatcher-ui/src/main/java/com/filewatcherui/ui/SettingsPanel.java
+new file mode 100644
+index 0000000..52aef73
+--- /dev/null
++++ b/filewatcher-ui/src/main/java/com/filewatcherui/ui/SettingsPanel.java
+@@ -0,0 +1,322 @@
++package com.filewatcherui.ui;
++
++import com.filewatcherui.service.ServiceClient;
++import com.google.gson.JsonObject;
++import javafx.application.Platform;
++import javafx.geometry.Insets;
++import javafx.geometry.Pos;
++import javafx.scene.control.*;
++import javafx.scene.layout.*;
++import javafx.scene.paint.Color;
++
++import java.util.logging.Logger;
++
++/**
++ * Settings tab: displays every AppConfig field as an editable control and
++ * persists changes via UPDATE_CONFIGURATION over the WebSocket.
++ *
++ * Population:   on tab focus (or connect) → client.getConfiguration() →
++ *               addConfigListener → populate()
++ * Persistence:  Save button → buildPatch() → client.sendUpdateConfig(patch)
++ *               → service persists to services.json + broadcasts new config
++ *               → addConfigListener fires again → fields re-populated with
++ *               the confirmed live values (round-trip confirmation).
++ *
++ * "Requires restart" fields are editable but shown with a ⚠ note so the
++ * operator knows the change won't take effect until the service is cycled.
++ * Hot-applied fields (logLevel, heartbeatIntervalSeconds, etc.) take effect
++ * immediately with no restart needed.
++ */
++public class SettingsPanel {
++
++    private static final Logger LOG = Logger.getLogger(SettingsPanel.class.getName());
++
++    // ── Field controls ────────────────────────────────────────────────────────
++
++    // WebSocket (restart-required)
++    private final TextField wsHostField    = styledField();
++    private final TextField wsPortField    = styledField();
++
++    // Polling / transfer
++    private final TextField defaultIntervalField = styledField();
++    private final CheckBox  pollingFallbackCheck = new CheckBox();
++    private final TextField maxTransfersField    = styledField();   // 0 = unbounded; restart-required
++
++    // Logging
++    private final ComboBox<String> logLevelCombo = new ComboBox<>();
++    private final TextField logMaxSizeField      = styledField();
++    private final TextField logMaxCountField     = styledField();
++
++    // Scheduler (restart-required)
++    private final TextField schedulerPoolField = styledField();
++
++    // Heartbeat (hot-applied)
++    private final TextField heartbeatField = styledField();
++
++    // SSH / SFTP (hot-applied)
++    private final TextField sshTimeoutField  = styledField();
++    private final TextField sftpTimeoutField = styledField();
++
++    // ── Status label / buttons ────────────────────────────────────────────────
++
++    private final Label  statusLabel  = new Label();
++    private final Button saveButton   = pillBtn("Save Changes", Theme.ACCENT);
++    private final Button reloadButton = pillBtn("Reload from Service", Theme.TEXT_SECONDARY);
++
++    // ── Root ──────────────────────────────────────────────────────────────────
++
++    private final ScrollPane root;
++    private final ServiceClient client;
++
++    public SettingsPanel(ServiceClient client) {
++        this.client = client;
++
++        logLevelCombo.getItems().addAll("SEVERE", "WARNING", "INFO", "FINE", "FINEST");
++        logLevelCombo.setValue("INFO");
++        logLevelCombo.setStyle(
++                "-fx-background-color: " + Theme.BG_CARD + ";" +
++                "-fx-text-fill: "        + Theme.TEXT_PRIMARY + ";" +
++                "-fx-border-color: "     + Theme.BORDER + ";" +
++                "-fx-border-radius: 4;" +
++                "-fx-background-radius: 4;");
++
++        pollingFallbackCheck.setStyle("-fx-text-fill: " + Theme.TEXT_PRIMARY + ";");
++
++        VBox content = new VBox(0);
++        content.setStyle("-fx-background-color: " + Theme.BG_BASE + ";");
++        content.setPadding(new Insets(24, 28, 28, 28));
++        content.setSpacing(0);
++
++        content.getChildren().addAll(
++                pageTitle("Service Configuration"),
++                subtitle("Changes marked ⚠ require a service restart to take effect."),
++                section("WebSocket"),
++                row("Bind host",          wsHostField,          "IP or hostname the WS server binds to  ⚠ restart required"),
++                row("Port",               wsPortField,          "Port number (default 9876)  ⚠ restart required"),
++                section("File Transfer"),
++                row("Default interval (s)", defaultIntervalField, "Polling/heartbeat interval used when a job has no per-job interval set"),
++                row("Polling fallback",   pollingFallbackCheck, "When disabled, jobs that can't use NIO or remote exec fail with ERROR rather than falling back to polling"),
++                row("Max concurrent transfers", maxTransfersField, "Thread pool size for file transfers; 0 = unbounded  ⚠ restart required"),
++                section("Logging"),
++                row("Log level",          logLevelCombo,        "SEVERE → FINEST. FINE/FINEST produce verbose output.  ✓ hot-applied"),
++                row("Max log file size (MB)", logMaxSizeField,  "Per rotating log file size ceiling"),
++                row("Max log file count", logMaxCountField,     "Number of rotating log files to retain"),
++                section("Scheduler"),
++                row("Thread pool size",   schedulerPoolField,   "Scheduled task thread count (polling, heartbeats)  ⚠ restart required"),
++                section("Heartbeat"),
++                row("Heartbeat interval (s)", heartbeatField,   "How often each running job's last-seen timestamp is updated; 0 = disabled  ✓ hot-applied"),
++                section("SSH / SFTP"),
++                row("SSH connect timeout (ms)",  sshTimeoutField,  "Milliseconds to wait when opening an SSH session  ✓ hot-applied"),
++                row("SFTP channel timeout (ms)", sftpTimeoutField, "Milliseconds to wait when opening an SFTP channel  ✓ hot-applied"),
++                buildActions()
++        );
++
++        root = new ScrollPane(content);
++        root.setFitToWidth(true);
++        root.setStyle("-fx-background-color: " + Theme.BG_BASE + "; -fx-background: " + Theme.BG_BASE + ";");
++
++        // Wire Save
++        saveButton.setOnAction(e -> save());
++
++        // Wire Reload
++        reloadButton.setOnAction(e -> {
++            statusLabel.setText("Reloading…");
++            statusLabel.setTextFill(Color.web(Theme.TEXT_MUTED));
++            client.getConfiguration();
++        });
++
++        // Wire config listener — receives both the initial GET reply and the
++        // round-trip confirmation after a successful UPDATE_CONFIGURATION.
++        client.addConfigListener(cfg -> Platform.runLater(() -> populate(cfg)));
++    }
++
++    public ScrollPane getRoot() { return root; }
++
++    /**
++     * Called by MainWindow when the Settings tab is selected to ensure the
++     * form shows live values even if the user navigated away and back.
++     */
++    public void requestRefresh() {
++        client.getConfiguration();
++    }
++
++    // ── Populate fields from config JSON ──────────────────────────────────────
++
++    private void populate(JsonObject cfg) {
++        if (cfg == null) return;
++
++        setField(wsHostField,         cfg, "websocketHost",          "localhost");
++        setField(wsPortField,         cfg, "websocketPort",          "9876");
++        setField(defaultIntervalField,cfg, "defaultIntervalSeconds", "120");
++        setField(maxTransfersField,   cfg, "maxConcurrentTransfers", "0");
++        setField(logMaxSizeField,     cfg, "logMaxFileSizeMb",       "10");
++        setField(logMaxCountField,    cfg, "logMaxFileCount",        "5");
++        setField(schedulerPoolField,  cfg, "schedulerThreadPoolSize","4");
++        setField(heartbeatField,      cfg, "heartbeatIntervalSeconds","60");
++        setField(sshTimeoutField,     cfg, "sshConnectTimeoutMs",    "10000");
++        setField(sftpTimeoutField,    cfg, "sftpChannelTimeoutMs",   "5000");
++
++        if (cfg.has("pollingFallbackEnabled"))
++            pollingFallbackCheck.setSelected(cfg.get("pollingFallbackEnabled").getAsBoolean());
++
++        if (cfg.has("logLevel")) {
++            String lvl = cfg.get("logLevel").getAsString().toUpperCase();
++            if (logLevelCombo.getItems().contains(lvl)) logLevelCombo.setValue(lvl);
++        }
++
++        statusLabel.setText("Loaded from service.");
++        statusLabel.setTextFill(Color.web(Theme.TEXT_MUTED));
++    }
++
++    private void setField(TextField f, JsonObject cfg, String key, String fallback) {
++        f.setText(cfg.has(key) ? cfg.get(key).getAsString() : fallback);
++    }
++
++    // ── Save ──────────────────────────────────────────────────────────────────
++
++    private void save() {
++        try {
++            JsonObject patch = buildPatch();
++            client.sendUpdateConfig(patch);
++            statusLabel.setText("Saved — waiting for confirmation…");
++            statusLabel.setTextFill(Color.web(Theme.SUCCESS));
++        } catch (IllegalArgumentException ex) {
++            statusLabel.setText("Validation error: " + ex.getMessage());
++            statusLabel.setTextFill(Color.web(Theme.DANGER));
++        }
++    }
++
++    private JsonObject buildPatch() {
++        JsonObject patch = new JsonObject();
++
++        String wsHost = wsHostField.getText().trim();
++        if (!wsHost.isBlank()) patch.addProperty("websocketHost", wsHost);
++
++        patch.addProperty("websocketPort",          parseInt(wsPortField, "WebSocket port", 1, 65535));
++        patch.addProperty("defaultIntervalSeconds", parseInt(defaultIntervalField, "Default interval", 1, 86400));
++        patch.addProperty("pollingFallbackEnabled", pollingFallbackCheck.isSelected());
++        patch.addProperty("maxConcurrentTransfers", parseInt(maxTransfersField, "Max concurrent transfers", 0, 1000));
++        patch.addProperty("logLevel",               logLevelCombo.getValue());
++        patch.addProperty("logMaxFileSizeMb",       parseInt(logMaxSizeField, "Log max file size", 1, 1000));
++        patch.addProperty("logMaxFileCount",        parseInt(logMaxCountField, "Log max file count", 1, 100));
++        patch.addProperty("schedulerThreadPoolSize",parseInt(schedulerPoolField, "Scheduler pool size", 1, 64));
++        patch.addProperty("heartbeatIntervalSeconds",parseInt(heartbeatField, "Heartbeat interval", 0, 3600));
++        patch.addProperty("sshConnectTimeoutMs",    parseInt(sshTimeoutField, "SSH connect timeout", 100, 120_000));
++        patch.addProperty("sftpChannelTimeoutMs",   parseInt(sftpTimeoutField, "SFTP channel timeout", 100, 60_000));
++
++        return patch;
++    }
++
++    private int parseInt(TextField field, String label, int min, int max) {
++        String raw = field.getText().trim();
++        try {
++            int val = Integer.parseInt(raw);
++            if (val < min || val > max)
++                throw new IllegalArgumentException(label + " must be between " + min + " and " + max + " (got " + val + ")");
++            return val;
++        } catch (NumberFormatException e) {
++            throw new IllegalArgumentException(label + " must be a whole number (got \"" + raw + "\")");
++        }
++    }
++
++    // ── Layout helpers ────────────────────────────────────────────────────────
++
++    private Label pageTitle(String text) {
++        Label l = new Label(text);
++        l.setStyle(
++                "-fx-font-size: 18;" +
++                "-fx-font-weight: bold;" +
++                "-fx-text-fill: " + Theme.TEXT_PRIMARY + ";" +
++                "-fx-padding: 0 0 4 0;");
++        return l;
++    }
++
++    private Label subtitle(String text) {
++        Label l = new Label(text);
++        l.setStyle(
++                "-fx-font-size: 11;" +
++                "-fx-text-fill: " + Theme.TEXT_MUTED + ";" +
++                "-fx-padding: 0 0 18 0;");
++        return l;
++    }
++
++    private Label section(String title) {
++        Label l = new Label(title.toUpperCase());
++        l.setStyle(
++                "-fx-font-size: 10;" +
++                "-fx-font-weight: bold;" +
++                "-fx-text-fill: " + Theme.TEXT_MUTED + ";" +
++                "-fx-letter-spacing: 0.08em;" +
++                "-fx-padding: 20 0 6 0;");
++        VBox.setMargin(l, new Insets(4, 0, 0, 0));
++        return l;
++    }
++
++    private HBox row(String label, javafx.scene.Node control, String hint) {
++        Label lbl = new Label(label);
++        lbl.setMinWidth(220);
++        lbl.setStyle("-fx-text-fill: " + Theme.TEXT_PRIMARY + "; -fx-font-size: 12;");
++
++        Label hintLabel = new Label(hint);
++        hintLabel.setStyle("-fx-text-fill: " + Theme.TEXT_MUTED + "; -fx-font-size: 10;");
++        hintLabel.setWrapText(true);
++
++        VBox rightCol = new VBox(4, control, hintLabel);
++        rightCol.setAlignment(Pos.TOP_LEFT);
++        HBox.setHgrow(rightCol, Priority.ALWAYS);
++
++        if (control instanceof TextField tf) {
++            tf.setPrefWidth(280);
++            tf.setMaxWidth(320);
++        } else if (control instanceof ComboBox<?> cb) {
++            cb.setPrefWidth(180);
++        }
++
++        HBox row = new HBox(16, lbl, rightCol);
++        row.setAlignment(Pos.CENTER_LEFT);
++        row.setPadding(new Insets(8, 0, 8, 0));
++        row.setStyle(
++                "-fx-background-color: transparent;" +
++                "-fx-border-color: transparent transparent " + Theme.BORDER + " transparent;" +
++                "-fx-border-width: 0 0 1 0;");
++        return row;
++    }
++
++    private HBox buildActions() {
++        statusLabel.setStyle("-fx-font-size: 11;");
++        statusLabel.setText("");
++
++        Region spacer = new Region();
++        HBox.setHgrow(spacer, Priority.ALWAYS);
++
++        HBox bar = new HBox(10, statusLabel, spacer, reloadButton, saveButton);
++        bar.setAlignment(Pos.CENTER_LEFT);
++        bar.setPadding(new Insets(24, 0, 0, 0));
++        return bar;
++    }
++
++    private static TextField styledField() {
++        TextField tf = new TextField();
++        tf.setStyle(
++                "-fx-background-color: " + Theme.BG_CARD + ";" +
++                "-fx-text-fill: "        + Theme.TEXT_PRIMARY + ";" +
++                "-fx-border-color: "     + Theme.BORDER + ";" +
++                "-fx-border-radius: 4;" +
++                "-fx-background-radius: 4;" +
++                "-fx-padding: 5 8 5 8;");
++        return tf;
++    }
++
++    private static Button pillBtn(String text, String colorHex) {
++        Button b = new Button(text);
++        b.setStyle(
++                "-fx-background-color: " + colorHex + ";" +
++                "-fx-text-fill: white;" +
++                "-fx-font-size: 11;" +
++                "-fx-font-weight: bold;" +
++                "-fx-background-radius: 5;" +
++                "-fx-padding: 6 14 6 14;" +
++                "-fx-cursor: hand;");
++        return b;
++    }
++}
+-- 
+2.43.0
+

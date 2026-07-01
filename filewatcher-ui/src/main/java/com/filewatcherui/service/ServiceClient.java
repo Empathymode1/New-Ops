@@ -55,6 +55,7 @@ public class ServiceClient extends WebSocketClient {
     private final List<RemoteDirListener> remoteDirListeners = new CopyOnWriteArrayList<>();
     private final List<Consumer<List<LogEntryMessage>>> logsListeners = new CopyOnWriteArrayList<>();
     private final List<Consumer<String>> logsExportListeners = new CopyOnWriteArrayList<>();
+    private final List<Consumer<JsonObject>> configListeners = new CopyOnWriteArrayList<>();
 
 
     private static final int RECONNECT_DELAY_MS = 5_000;
@@ -89,6 +90,8 @@ public class ServiceClient extends WebSocketClient {
     }
     public void addLogsListener(Consumer<List<LogEntryMessage>> l) { logsListeners.add(l); }
     public void addLogsExportListener(Consumer<String> l) { logsExportListeners.add(l); }
+    /** Called with the current AppConfig (as raw JSON, since AppConfig lives in the service module) on GET_CONFIGURATION reply or after any UPDATE_CONFIGURATION is applied. */
+    public void addConfigListener(Consumer<JsonObject> l) { configListeners.add(l); }
     // ── WebSocket lifecycle ───────────────────────────────────────────────────
 
     @Override
@@ -168,7 +171,7 @@ public class ServiceClient extends WebSocketClient {
                             ? json.get("error").getAsString() : null;
                     testCredentialListeners.forEach(l -> l.accept(credId, error));
                 }
-                case WsTypes.LIST_REMOTE_DIR_RESULT -> {
+                case "LIST_REMOTE_DIR_RESULT" -> {
                     String replyPath = json.get("path").getAsString();
                     String error     = json.has("error") ? json.get("error").getAsString() : null;
                     List<String> entries = new ArrayList<>();
@@ -191,6 +194,10 @@ public class ServiceClient extends WebSocketClient {
                 case WsTypes.LOGS_EXPORT -> {
                     String csv = json.has("csv") ? json.get("csv").getAsString() : "";
                     logsExportListeners.forEach(l -> l.accept(csv));
+                }
+                case WsTypes.CONFIGURATION -> {
+                    JsonObject config = json.getAsJsonObject("config");
+                    configListeners.forEach(l -> l.accept(config));
                 }
             }
         } catch (Exception e) {
@@ -221,6 +228,18 @@ public class ServiceClient extends WebSocketClient {
         cmd.addProperty("id",  id);
         sendIfConnected(cmd);
     }
+
+    /**
+     * "Restart Service" per architecture doc §4 (Service Management).
+     * There is no dedicated RESTART_JOB wire command (doc §9 lists
+     * RESTART_SERVICE, but the service side only implements START_JOB/
+     * STOP_JOB), so this is composed client-side as stop-then-start.
+     */
+    public void restartJob(String id) {
+        stopJob(id);
+        startJob(id);
+    }
+
     public void startAll() {
         JsonObject cmd = new JsonObject();
         cmd.addProperty("cmd", "START_ALL");
@@ -301,6 +320,27 @@ public class ServiceClient extends WebSocketClient {
     public void requestHealth() {
         JsonObject cmd = new JsonObject();
         cmd.addProperty("cmd", "HEALTH");
+        sendIfConnected(cmd);
+    }
+
+    // ── Configuration (Settings tab) ────────────────────────────────────────
+    /** Requests the live AppConfig from the service; arrives via a registered config listener. */
+    public void getConfiguration() {
+        JsonObject cmd = new JsonObject();
+        cmd.addProperty("cmd", WsCommands.GET_CONFIGURATION);
+        sendIfConnected(cmd);
+    }
+
+    /**
+     * Sends a (possibly partial) config patch to the service for
+     * UPDATE_CONFIGURATION. Only the fields present in {@code patch} are
+     * changed server-side — pass a JsonObject built from just the fields the
+     * Settings form actually edited so unrelated config isn't clobbered.
+     */
+    public void sendUpdateConfig(JsonObject patch) {
+        JsonObject cmd = new JsonObject();
+        cmd.addProperty("cmd", WsCommands.UPDATE_CONFIGURATION);
+        cmd.add("config", patch);
         sendIfConnected(cmd);
     }
 

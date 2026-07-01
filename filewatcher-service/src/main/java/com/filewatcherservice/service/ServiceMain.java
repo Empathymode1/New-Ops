@@ -90,7 +90,7 @@ public class ServiceMain {
         // ── Phase 8: Start WebSocket Server ───────────────────────────────────
         LOG.info("[Phase 8] Starting WebSocket server on port " + config.websocketPort + "...");
         ServiceWebSocketServer wsServer = new ServiceWebSocketServer(
-                config.websocketHost, config.websocketPort, serviceManager, watcherService, notificationService);
+                config.websocketHost, config.websocketPort, serviceManager, watcherService, notificationService, config);
         wsServer.start();
 
         // ── Phase 9 & 10: UI Connects / Dashboard Ready ───────────────────────

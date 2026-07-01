@@ -43,6 +43,11 @@ public class WatchJob {
     private long filesTransferred;
     private long bytesTransferred;
     private LocalDateTime lastTransfer;
+    // Per-job liveness tick — distinct from lastTransfer. Updated whenever the
+    // job's watcher (NIO loop, polling tick, or remote-exec heartbeat task) is
+    // confirmed alive, regardless of whether a file actually moved. See
+    // FileWatcherService.touchHeartbeat().
+    private LocalDateTime lastHeartbeat;
     private LocalDateTime createdAt;
     private String lastError;
     private int watchDepth;
@@ -138,6 +143,9 @@ public class WatchJob {
 
     public LocalDateTime getLastTransfer() { return lastTransfer; }
     public void setLastTransfer(LocalDateTime lastTransfer) { this.lastTransfer = lastTransfer; }
+
+    public LocalDateTime getLastHeartbeat() { return lastHeartbeat; }
+    public void setLastHeartbeat(LocalDateTime lastHeartbeat) { this.lastHeartbeat = lastHeartbeat; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
 

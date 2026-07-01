@@ -14,6 +14,9 @@ public final class WsTypes {
     public static final String TEST_RESULT  = "TEST_RESULT";
     public static final String HEALTH       = "HEALTH";
 
+    /** Reply to GET_CONFIGURATION and confirmation push after UPDATE_CONFIGURATION — carries the current AppConfig. */
+    public static final String CONFIGURATION = "CONFIGURATION";
+
     /** Reply to GET_LOGS — carries a list of LogEntryMessage. */
     public static final String LOGS         = "LOGS";
     /** Reply to EXPORT_LOGS — carries a single CSV string field. */
