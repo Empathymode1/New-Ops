@@ -7,9 +7,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="filewatcher-common" />
+        <module name="untitled" />
         <module name="filewatcher-service" />
         <module name="filewatcher-ui" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="UI" target="24" />
+      <module name="untitled" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

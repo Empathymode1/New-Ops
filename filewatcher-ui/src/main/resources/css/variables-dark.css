@@ -1,0 +1,36 @@
+/* Dark theme tokens — referenced everywhere else via -fx-* lookup colors. */
+.root {
+    -bg: #0B0F14;
+    -panel: #121822;
+    -panel-2: #1A2230;
+    -panel-3: #212B3B;
+    -border: #26303F;
+    -border-soft: #1D2632;
+    -text: #E7EDF5;
+    -text-dim: #8B98AA;
+    -text-faint: #5B6779;
+
+    -accent: #42E0CE;
+    -accent-strong: #5CF0DE;
+    -accent-dim: #172A28;
+    -accent-text: #0B0F14;
+
+    -green: #3FB950;
+    -green-dim: #16261A;
+    -blue: #58A6FF;
+    -blue-dim: #16212F;
+    -orange: #D29922;
+    -orange-dim: #2A2113;
+    -red: #F85149;
+    -red-dim: #2A1816;
+    -gray: #6E7681;
+    -gray-dim: #1C2027;
+
+    -fx-font-family: "Inter";
+    -fx-base: -panel;
+    -fx-background: -bg;
+    -fx-control-inner-background: -panel-2;
+    -fx-text-fill: -text;
+    -fx-focus-color: -accent;
+    -fx-faint-focus-color: transparent;
+}

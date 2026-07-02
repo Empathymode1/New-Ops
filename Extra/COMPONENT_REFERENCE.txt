@@ -1,0 +1,202 @@
+═════════════════════════════════════════════════════════════════════════════════
+  UI COMPONENTS - QUICK REFERENCE
+═════════════════════════════════════════════════════════════════════════════════
+
+COMPONENT              | CLASS                      | PURPOSE
+──────────────────────────────────────────────────────────────────────────────
+
+METRIC CARDS           | InfoCard                   | Display metrics with title/value
+                       |                            | Used in dashboard summary
+                       | Example: new InfoCard("Jobs", "5", "Running")
+
+STATUS INDICATOR       | StatusBadge                | Show job status with color
+                       |                            | Used in tables for visual status
+                       | Example: new StatusBadge(WatchJob.Status.WATCHING)
+
+SEARCH INPUT           | SearchBar                  | Real-time search with callback
+                       |                            | Used in Logs, Service tabs
+                       | Example: new SearchBar("Search...", () -> filter())
+
+FILTER TOOLBAR         | FilterToolbar              | Multi-filter UI (search+combos)
+                       |                            | Used in Logs tab
+                       | Features: event, job, search filters
+
+TOAST POPUP            | ToastNotification          | Auto-dismissing notification
+                       |                            | 3-second lifetime, 4 types
+                       | Types: SUCCESS, ERROR, WARNING, INFO
+
+CONNECTION STATUS      | ConnectionIndicator        | Show WebSocket connection
+                       |                            | Animated pulse when connected
+                       | Used in status bar and toolbars
+
+ACTION TOOLBAR         | ServiceManagementToolbar   | Button bar for service actions
+                       |                            | Add, Edit, Delete, Start, Stop, Restart
+                       | Context-aware enablement
+
+DASHBOARD PANEL        | EnhancedDashboardPanel     | Overview with cards + service table
+                       |                            | Real-time updates via WebSocket
+                       | Shows: metrics, status, heartbeat, errors
+
+KEYBOARD HANDLER       | KeyboardShortcuts          | Ctrl+D, Ctrl+S, Ctrl+L, etc.
+                       |                            | Registered in Scene accelerators
+                       | 6 total shortcuts defined
+
+EXISTING COMPONENTS    | MainWindow                 | Main application window
+                       | StatusBarPanel             | Bottom status bar
+                       | Theme                      | Global color/font constants
+                       | SettingsPanel              | Configuration editor (12 fields)
+                       | LogsPanel                  | Transfer history viewer
+                       | JobTablePanel              | Job table with details panel
+
+───────────────────────────────────────────────────────────────────────────────
+COMPONENT USAGE PATTERNS
+───────────────────────────────────────────────────────────────────────────────
+
+DISPLAYING A METRIC CARD:
+  InfoCard card = new InfoCard("Running Jobs", "5", "Active watchers");
+  container.getChildren().add(card);
+  
+  // Later: update value
+  card.setValue("7");
+
+SHOWING JOB STATUS:
+  StatusBadge badge = new StatusBadge(job.getStatus());
+  container.setGraphic(badge);
+  
+  // Later: update status
+  badge.setStatus(WatchJob.Status.TRANSFERRING);
+
+SEARCH WITH CALLBACK:
+  SearchBar search = new SearchBar("Find jobs...", () -> {
+    String query = search.getSearchText();
+    List<WatchJob> results = jobs.stream()
+      .filter(j -> j.getName().contains(query))
+      .collect(toList());
+    updateTable(results);
+  });
+
+MULTI-FILTER TOOLBAR:
+  FilterToolbar filters = new FilterToolbar("Search...", () -> applyFilters());
+  String search = filters.getSearchText();
+  String event = filters.getEventFilter();  // null if "All"
+  String job = filters.getJobFilter();      // null if "All"
+
+TOAST NOTIFICATION:
+  try {
+    client.startJob(selected);
+    new ToastNotification("Job started", Type.SUCCESS).show(stage);
+  } catch (Exception e) {
+    new ToastNotification("Failed: " + e.getMessage(), Type.ERROR).show(stage);
+  }
+
+CONNECTION INDICATOR:
+  ConnectionIndicator conn = new ConnectionIndicator("WebSocket");
+  client.addConnectListener(() -> 
+    Platform.runLater(() -> conn.setConnected(true))
+  );
+  statusBar.add(conn);
+
+KEYBOARD SHORTCUTS:
+  Scene scene = new Scene(root);
+  KeyboardShortcuts shortcuts = new KeyboardShortcuts(tabPane, searchBar);
+  shortcuts.registerShortcuts(scene);
+  // Now Ctrl+D switches to Dashboard, etc.
+
+───────────────────────────────────────────────────────────────────────────────
+STYLING REFERENCE
+───────────────────────────────────────────────────────────────────────────────
+
+All components use Theme constants:
+  • Theme.BG_BASE, BG_SURFACE, BG_CARD
+  • Theme.TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED
+  • Theme.BORDER, BORDER_STRONG
+  • Theme.ACCENT, SUCCESS, WARNING, DANGER, INFO
+
+Standard padding: 12px
+Standard gap: 8px
+Border radius: 4-6px
+Font sizes: 10pt (small), 11pt (normal), 12pt (large), 15pt (heading)
+
+Status colors (auto-selected):
+  • WATCHING → blue (#B87C2A)
+  • TRANSFERRING → green (#2E7D52)
+  • ERROR → red (#B54040)
+  • PAUSED → orange (#9A5A1A)
+  • IDLE → gray (#6A5E56)
+
+───────────────────────────────────────────────────────────────────────────────
+COMMON PATTERNS
+───────────────────────────────────────────────────────────────────────────────
+
+REAL-TIME UPDATE PATTERN:
+  client.addJobStateListener(job -> Platform.runLater(() -> {
+    card.setValue(String.valueOf(job.getFilesTransferred()));
+  }));
+
+BUTTON CALLBACK PATTERN:
+  button.setOnAction(e -> {
+    try {
+      client.startJob(selected);
+      showToast("Started", SUCCESS);
+    } catch (Exception ex) {
+      showToast("Error: " + ex.getMessage(), ERROR);
+    }
+  });
+
+TABLE CELL PATTERN:
+  TableColumn<WatchJob, WatchJob.Status> col = new TableColumn<>("Status");
+  col.setCellFactory(c -> new TableCell<>() {
+    @Override protected void updateItem(WatchJob.Status s, boolean empty) {
+      super.updateItem(s, empty);
+      setGraphic(empty ? null : new StatusBadge(s));
+    }
+  });
+
+FILTER PATTERN:
+  ObservableList<WatchJob> filtered = FXCollections.observableArrayList();
+  String query = search.getSearchText();
+  filtered.setAll(
+    jobs.stream()
+      .filter(j -> j.getName().contains(query))
+      .collect(toList())
+  );
+  table.setItems(filtered);
+
+───────────────────────────────────────────────────────────────────────────────
+FILE LOCATIONS
+───────────────────────────────────────────────────────────────────────────────
+
+All UI components are in:
+  filewatcher-ui/src/main/java/com/filewatcherui/ui/
+
+Files:
+  • InfoCard.java                 (1.8 KB) - metric cards
+  • StatusBadge.java             (0.8 KB) - status indicators
+  • SearchBar.java               (1.1 KB) - search input
+  • FilterToolbar.java           (3.1 KB) - multi-filter UI
+  • ToastNotification.java       (2.7 KB) - auto-dismiss popups
+  • ConnectionIndicator.java     (2.5 KB) - connection status
+  • ServiceManagementToolbar.java (3.7 KB) - action buttons
+  • EnhancedDashboardPanel.java  (7.9 KB) - overview dashboard
+  • KeyboardShortcuts.java       (2.1 KB) - keyboard shortcuts
+
+Total new code: ~25 KB (highly reusable)
+
+───────────────────────────────────────────────────────────────────────────────
+TESTING CHECKLIST
+───────────────────────────────────────────────────────────────────────────────
+
+□ InfoCard displays metric values
+□ StatusBadge colors match job status
+□ SearchBar filters on keystroke
+□ FilterToolbar applies all filters
+□ ToastNotification auto-dismisses
+□ ConnectionIndicator pulses when connected
+□ ServiceManagementToolbar buttons enable/disable
+□ EnhancedDashboardPanel loads with WebSocket data
+□ Keyboard shortcuts work (test Ctrl+D, etc.)
+□ All components respond to theme colors
+□ No null pointer exceptions on missing data
+□ WebSocket listeners don't create memory leaks
+
+═════════════════════════════════════════════════════════════════════════════════

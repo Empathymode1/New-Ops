@@ -21,4 +21,5 @@ public final class WsTypes {
     public static final String LOGS         = "LOGS";
     /** Reply to EXPORT_LOGS — carries a single CSV string field. */
     public static final String LOGS_EXPORT  = "LOGS_EXPORT";
+    public static final String LIST_REMOTE_DIR_RESULT = "LIST_REMOTE_DIR_RESULT";
 }

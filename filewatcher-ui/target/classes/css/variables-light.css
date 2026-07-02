@@ -1,0 +1,36 @@
+/* Light theme tokens — same variable names, different values (spec §13). */
+.root {
+    -bg: #EEF2F4;
+    -panel: #FFFFFF;
+    -panel-2: #F5F8F9;
+    -panel-3: #ECF1F3;
+    -border: #DCE3E8;
+    -border-soft: #E7ECEF;
+    -text: #171E27;
+    -text-dim: #5B6B7A;
+    -text-faint: #8B99A8;
+
+    -accent: #0E9C8C;
+    -accent-strong: #0B8578;
+    -accent-dim: #E1F4F1;
+    -accent-text: #FFFFFF;
+
+    -green: #1E8E3E;
+    -green-dim: #E4F3E8;
+    -blue: #2470C4;
+    -blue-dim: #E5F0FC;
+    -orange: #B4740E;
+    -orange-dim: #FBF0DD;
+    -red: #D93A32;
+    -red-dim: #FBE7E6;
+    -gray: #5B6B7A;
+    -gray-dim: #EAEDEF;
+
+    -fx-font-family: "Inter";
+    -fx-base: -panel;
+    -fx-background: -bg;
+    -fx-control-inner-background: -panel-2;
+    -fx-text-fill: -text;
+    -fx-focus-color: -accent;
+    -fx-faint-focus-color: transparent;
+}

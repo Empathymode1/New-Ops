@@ -1866,3 +1866,1175 @@ Jul 01, 2026 10:32:37 AM com.filewatcherservice.service.ServiceWebSocketServer o
 INFO: UI connected: /127.0.0.1:63760
 Jul 01, 2026 10:51:38 AM com.filewatcherservice.service.ServiceMain lambda$start$1
 INFO: FileWatcher service shutting down...
+Jul 01, 2026 12:08:43 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 12:08:43 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 12:08:43 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 12:08:44 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 12:09:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52245
+Jul 01, 2026 12:12:33 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 12:16:06 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 12:16:06 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 12:16:06 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 12:16:07 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 12:16:11 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52686
+Jul 01, 2026 12:16:18 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:52686
+Jul 01, 2026 12:16:23 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52688
+Jul 01, 2026 12:16:41 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52701
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 12:19:19 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 12:19:20 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61840
+Jul 01, 2026 12:19:43 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64959
+Jul 01, 2026 12:20:44 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64988
+Jul 01, 2026 12:21:19 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64988
+Jul 01, 2026 12:21:24 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:51869
+Jul 01, 2026 12:21:43 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64959
+Jul 01, 2026 12:21:48 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:53502
+Jul 01, 2026 12:22:07 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:53511
+Jul 01, 2026 1:31:49 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:53502
+Jul 01, 2026 1:31:54 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62622
+Jul 01, 2026 1:32:08 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:53511
+Jul 01, 2026 1:32:13 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:53932
+Jul 01, 2026 1:32:19 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:51869
+Jul 01, 2026 1:32:19 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:61840
+Jul 01, 2026 1:32:24 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:65105
+Jul 01, 2026 1:32:24 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:65104
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 1:38:01 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 1:38:05 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55548
+Jul 01, 2026 1:38:05 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55549
+Jul 01, 2026 1:38:05 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55550
+Jul 01, 2026 1:38:25 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55560
+Jul 01, 2026 1:39:36 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:55550
+Jul 01, 2026 1:39:39 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:55560
+Jul 01, 2026 1:39:41 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61597
+Jul 01, 2026 1:39:44 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:51230
+Jul 01, 2026 1:39:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55568
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 5:19:23 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 5:19:24 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55244
+Jul 01, 2026 5:19:24 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55245
+Jul 01, 2026 5:19:24 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55246
+Jul 01, 2026 5:19:24 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55247
+Jul 01, 2026 5:19:25 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:55248
+Jul 01, 2026 5:19:45 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60402
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60403
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60404
+Jul 01, 2026 5:19:50 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60405
+Jul 01, 2026 5:20:18 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:50053
+Jul 01, 2026 5:20:31 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:50053
+Jul 01, 2026 5:20:36 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:51577
+Jul 01, 2026 5:21:29 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:54364
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 5:23:25 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63002
+Jul 01, 2026 5:23:28 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60177
+Jul 01, 2026 5:23:28 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60178
+Jul 01, 2026 5:23:28 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60180
+Jul 01, 2026 5:23:28 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60179
+Jul 01, 2026 5:23:28 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60182
+Jul 01, 2026 5:23:34 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60189
+Jul 01, 2026 5:23:40 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 5:23:42 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 5:25:25 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:60189
+Jul 01, 2026 5:25:40 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57079
+Jul 01, 2026 5:26:27 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:63002
+Jul 01, 2026 5:26:32 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63684
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 5:28:25 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 5:28:26 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57610
+Jul 01, 2026 5:28:26 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57609
+Jul 01, 2026 5:28:26 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57611
+Jul 01, 2026 5:28:26 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57607
+Jul 01, 2026 5:28:26 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57608
+Jul 01, 2026 5:28:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57612
+Jul 01, 2026 5:28:45 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62316
+Jul 01, 2026 5:28:48 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:62316
+Jul 01, 2026 5:28:48 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 5:28:48 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 5:28:53 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63773
+Jul 01, 2026 5:29:45 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61381
+Jul 01, 2026 5:30:21 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61413
+Jul 01, 2026 5:43:40 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:61381
+Jul 01, 2026 6:49:12 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64511
+Jul 01, 2026 6:49:16 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:63773
+Jul 01, 2026 6:49:21 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64526
+Jul 01, 2026 8:43:55 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:61413
+Jul 01, 2026 8:43:55 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:55 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:55 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:55 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:55 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:55 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:56 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:56 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:56 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:56 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:56 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:56 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:56 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:56 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:57 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:57 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:57 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:57 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:57 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:57 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:57 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:57 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:58 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:58 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:58 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:58 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:58 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:58 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:57610
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64511
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:64526
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:57608
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:57609
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:57607
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:57611
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:57612
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:43:59 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:00 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:00 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:00 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:00 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:00 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:00 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:00 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:00 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:01 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:01 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:01 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:01 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:01 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:65086
+Jul 01, 2026 8:44:02 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:02 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:02 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:02 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:02 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:03 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:03 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:03 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:03 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:03 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:56247
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62839
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62840
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62842
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:04 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62843
+Jul 01, 2026 8:44:05 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:05 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:05 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62844
+Jul 01, 2026 8:44:05 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:62845
+Jul 01, 2026 8:44:05 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:05 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:05 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:05 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:06 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:06 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:06 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:06 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:06 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:06 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:07 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:07 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:07 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:07 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:07 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:07 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:07 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:07 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:08 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:08 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:08 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:08 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:08 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:08 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:09 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:09 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:09 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:09 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:10 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:10 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:10 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:10 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:10 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:10 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:11 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:11 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:11 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:11 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:11 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:11 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:11 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:11 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:12 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:12 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:12 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:12 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:12 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:12 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:13 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:13 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:13 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:13 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:13 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:13 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:14 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:14 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:14 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:14 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:15 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:15 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:15 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:15 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:15 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:15 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:15 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:15 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:16 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:17 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: [Shutdown 1] Stopping scheduler...
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.scheduler.Scheduler shutdown
+INFO: Scheduler shut down
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: [Shutdown 2] Stopping file watchers...
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: [Shutdown 3] Socket services — not yet implemented, skipping
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: [Shutdown 4] Flushing pending DB writes...
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: [Shutdown 5] Closing SQLite...
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.database.DatabaseService close
+INFO: DatabaseService: connection closed
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: [Shutdown 6] Stopping WebSocket server...
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: null
+Jul 01, 2026 8:44:18 PM com.filewatcherservice.service.ServiceWebSocketServer onError
+WARNING: WebSocket error: null
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 8:45:12 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49740
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49742
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49741
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49743
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49744
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49745
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49746
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49747
+Jul 01, 2026 8:45:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:49748
+Jul 01, 2026 8:45:43 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:49747
+Jul 01, 2026 8:45:48 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57335
+Jul 01, 2026 8:46:20 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59756
+Jul 01, 2026 8:47:12 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:49748
+Jul 01, 2026 8:47:19 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63202
+Jul 01, 2026 8:55:16 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 8:55:25 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63050
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63054
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63049
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63055
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63047
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63051
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63052
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63053
+Jul 01, 2026 8:55:27 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63056
+Jul 01, 2026 8:56:24 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:50960
+Jul 01, 2026 8:56:49 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...
+Jul 01, 2026 8:57:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 8:57:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 8:57:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 8:57:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 8:57:35 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61964
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61963
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61962
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61965
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61966
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61967
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61968
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61969
+Jul 01, 2026 8:57:39 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61970
+Jul 01, 2026 8:57:53 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63748
+Jul 01, 2026 8:58:29 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:63757
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57127
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57129
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57132
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57128
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57131
+Jul 01, 2026 10:18:36 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57133
+Jul 01, 2026 10:18:37 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57138
+Jul 01, 2026 10:18:37 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57140
+Jul 01, 2026 10:18:37 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57137
+Jul 01, 2026 10:18:37 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57135
+Jul 01, 2026 10:18:37 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57139
+Jul 01, 2026 10:18:37 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57136
+Jul 01, 2026 10:18:38 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57141
+Jul 01, 2026 10:18:40 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:57149
+Jul 01, 2026 10:19:12 PM com.filewatcherservice.service.ServiceWebSocketServer onMessage
+WARNING: Failed to handle message: Cannot invoke "com.google.gson.JsonElement.getAsString()" because the return value of "com.google.gson.JsonObject.get(String)" is null
+Jul 01, 2026 10:20:13 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 10:20:36 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:57135
+Jul 01, 2026 10:20:42 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:53581
+Jul 01, 2026 10:25:36 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:53581
+Jul 01, 2026 10:25:47 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:61122
+Jul 01, 2026 10:25:57 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59853
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59854
+Jul 01, 2026 10:47:42 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59855
+Jul 01, 2026 10:47:43 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59857
+Jul 01, 2026 10:47:43 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59858
+Jul 01, 2026 10:47:44 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59859
+Jul 01, 2026 10:47:44 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59860
+Jul 01, 2026 10:47:44 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59861
+Jul 01, 2026 10:47:45 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59862
+Jul 01, 2026 10:47:45 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59863
+Jul 01, 2026 10:47:47 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59865
+Jul 01, 2026 10:47:47 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59868
+Jul 01, 2026 10:47:47 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59866
+Jul 01, 2026 10:47:47 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59867
+Jul 01, 2026 10:47:47 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59869
+Jul 01, 2026 10:47:47 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59870
+Jul 01, 2026 10:48:08 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59890
+Jul 01, 2026 10:49:42 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:59859
+Jul 01, 2026 10:49:49 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:50782
+Jul 01, 2026 10:50:20 PM com.filewatcherservice.service.ServiceWebSocketServer applyConfigUpdate
+INFO: Log level hot-applied: INFO
+Jul 01, 2026 10:50:20 PM com.filewatcherservice.config.ConfigLoader save
+INFO: Saved updated config to: D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-service\target\classes\services.json
+Jul 01, 2026 10:50:20 PM com.filewatcherservice.service.ServiceWebSocketServer applyConfigUpdate
+INFO: Configuration updated via UPDATE_CONFIGURATION: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=2, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 10:51:54 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=2, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 2)
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52770
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52771
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52772
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52781
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52784
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52773
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52776
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52774
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52783
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52775
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52778
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52780
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52777
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52782
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52785
+Jul 01, 2026 10:51:59 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52779
+Jul 01, 2026 10:52:10 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:52785
+Jul 01, 2026 10:52:14 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52788
+Jul 01, 2026 10:52:15 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52789
+Jul 01, 2026 10:53:54 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:52959
+Jul 01, 2026 10:55:44 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:50711
+Jul 01, 2026 10:56:24 PM com.filewatcherservice.service.ServiceWebSocketServer applyConfigUpdate
+INFO: Log level hot-applied: INFO
+Jul 01, 2026 10:56:24 PM com.filewatcherservice.config.ConfigLoader save
+INFO: Saved updated config to: D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-service\target\classes\services.json
+Jul 01, 2026 10:56:24 PM com.filewatcherservice.service.ServiceWebSocketServer applyConfigUpdate
+INFO: Configuration updated via UPDATE_CONFIGURATION: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=2, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 01, 2026 10:56:45 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:52788
+Jul 01, 2026 10:56:50 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:59806
+Jul 01, 2026 11:22:57 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:64921
+Jul 01, 2026 11:23:02 PM com.filewatcherservice.service.ServiceWebSocketServer onClose
+INFO: UI disconnected: /127.0.0.1:50711
+Jul 01, 2026 11:23:07 PM com.filewatcherservice.service.ServiceWebSocketServer onOpen
+INFO: UI connected: /127.0.0.1:60483
+Jul 01, 2026 11:25:11 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...

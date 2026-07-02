@@ -1,0 +1,218 @@
+═════════════════════════════════════════════════════════════════════════════════
+  UI COMPONENTS - INTEGRATION GUIDE
+═════════════════════════════════════════════════════════════════════════════════
+
+To integrate the new UI components into the application, follow these steps:
+
+───────────────────────────────────────────────────────────────────────────────
+1. REPLACE DASHBOARD (Optional Enhancement)
+───────────────────────────────────────────────────────────────────────────────
+
+In MainWindow.java, replace:
+  ❌ DashboardPanel dashboardPanel = new DashboardPanel(client);
+  ✅ EnhancedDashboardPanel dashboardPanel = new EnhancedDashboardPanel(client);
+
+Benefits:
+  • Summary cards with key metrics
+  • Enhanced table with all spec columns
+  • Better visual hierarchy
+
+───────────────────────────────────────────────────────────────────────────────
+2. ADD KEYBOARD SHORTCUTS
+───────────────────────────────────────────────────────────────────────────────
+
+In MainWindow.java, after Scene is created:
+
+  KeyboardShortcuts shortcuts = new KeyboardShortcuts(tabs, searchBar);
+  shortcuts.registerShortcuts(scene);
+
+This enables:
+  Ctrl+D → Dashboard
+  Ctrl+S → Service Management
+  Ctrl+L → Logs
+  Ctrl+, → Settings
+  F5 → Refresh
+  Ctrl+F → Focus search
+
+───────────────────────────────────────────────────────────────────────────────
+3. ENHANCE SERVICE MANAGEMENT TOOLBAR
+───────────────────────────────────────────────────────────────────────────────
+
+In JobTablePanel.java, add toolbar:
+
+  ServiceManagementToolbar toolbar = new ServiceManagementToolbar(
+    () -> new JobEditDialog(stage, client, null).show(),  // onAdd
+    () -> { /* edit selected */ },                         // onEdit
+    () -> { /* delete selected */ },                       // onDelete
+    () -> client.startJob(selected),                       // onStart
+    () -> client.stopJob(selected),                        // onStop
+    () -> client.restartJob(selected),                     // onRestart
+    () -> refresh()                                        // onRefresh
+  );
+
+Then in the layout:
+  root.setTop(toolbar);
+
+───────────────────────────────────────────────────────────────────────────────
+4. ENHANCE LOGS PANEL WITH FILTERS
+───────────────────────────────────────────────────────────────────────────────
+
+In LogsPanel.java, add filter toolbar:
+
+  FilterToolbar filterToolbar = new FilterToolbar(
+    "Search transfers...",
+    () -> applyFilters()
+  );
+
+Then in the layout:
+  root.setTop(filterToolbar);
+
+Implement applyFilters():
+  String search = filterToolbar.getSearchText();
+  String eventType = filterToolbar.getEventFilter();
+  String jobFilter = filterToolbar.getJobFilter();
+  
+  refreshTable(search, eventType, jobFilter);
+
+───────────────────────────────────────────────────────────────────────────────
+5. ADD CONNECTION INDICATOR TO STATUS BAR
+───────────────────────────────────────────────────────────────────────────────
+
+In StatusBarPanel.java:
+
+  ConnectionIndicator connIndicator = new ConnectionIndicator("WebSocket");
+  
+  client.addConnectListener(() -> 
+    Platform.runLater(() -> connIndicator.setConnected(true))
+  );
+
+Then add to root HBox:
+  root.getChildren().add(2, connIndicator);
+
+───────────────────────────────────────────────────────────────────────────────
+6. ADD TOAST NOTIFICATIONS (Error/Success Messages)
+───────────────────────────────────────────────────────────────────────────────
+
+Usage examples:
+
+  // Success notification
+  new ToastNotification("Job started successfully", ToastNotification.Type.SUCCESS)
+    .show(owner.getScene().getWindow());
+
+  // Error notification
+  new ToastNotification("Failed to start job", ToastNotification.Type.ERROR)
+    .show(owner.getScene().getWindow());
+
+  // Warning notification
+  new ToastNotification("Service will restart", ToastNotification.Type.WARNING)
+    .show(owner.getScene().getWindow());
+
+───────────────────────────────────────────────────────────────────────────────
+7. USE STATUS BADGE IN TABLES
+───────────────────────────────────────────────────────────────────────────────
+
+In any table column showing status:
+
+  TableColumn<WatchJob, WatchJob.Status> statusCol = new TableColumn<>("Status");
+  statusCol.setCellFactory(col -> new TableCell<>() {
+    @Override protected void updateItem(WatchJob.Status status, boolean empty) {
+      super.updateItem(status, empty);
+      if (empty || status == null) {
+        setGraphic(null);
+        return;
+      }
+      setGraphic(new StatusBadge(status));
+    }
+  });
+
+───────────────────────────────────────────────────────────────────────────────
+8. USE INFO CARDS FOR METRICS
+───────────────────────────────────────────────────────────────────────────────
+
+Usage:
+
+  InfoCard card = new InfoCard("Total Jobs", "12", "Active services");
+  card.setValue("15");  // Update dynamically
+  card.setDescription("Including paused services");
+
+───────────────────────────────────────────────────────────────────────────────
+9. USE SEARCH BAR
+───────────────────────────────────────────────────────────────────────────────
+
+Usage:
+
+  SearchBar search = new SearchBar("Search jobs...", () -> {
+    String text = search.getSearchText();
+    filterTable(text);
+  });
+
+───────────────────────────────────────────────────────────────────────────────
+COMPILATION CHECKLIST
+───────────────────────────────────────────────────────────────────────────────
+
+Before compiling:
+  □ All new components are in com.filewatcherui.ui package
+  □ All components import Theme correctly
+  □ All components import ServiceClient where needed
+  □ No circular dependencies
+  □ No unused imports
+
+Compile:
+  mvn clean compile -DskipTests
+
+If errors occur:
+  1. Check imports in each new file
+  2. Verify Theme constants are available
+  3. Check JavaFX version compatibility
+  4. Review any GUI builder generation issues
+
+───────────────────────────────────────────────────────────────────────────────
+RUNTIME TESTING
+───────────────────────────────────────────────────────────────────────────────
+
+After compilation:
+
+  1. Start the service:
+     java -jar filewatcher-service/target/*.jar
+
+  2. Start the UI:
+     java -jar filewatcher-ui/target/*.jar
+
+  3. Verify:
+     □ Dashboard loads with summary cards
+     □ Service table displays with status badges
+     □ Keyboard shortcuts work (Ctrl+D, Ctrl+S, etc.)
+     □ Search bar filters results in real-time
+     □ Filters work in Logs tab
+     □ Status bar shows connection status
+     □ Notifications appear when events occur
+     □ All buttons are enabled/disabled contextually
+
+───────────────────────────────────────────────────────────────────────────────
+THEMING (Future Enhancement)
+───────────────────────────────────────────────────────────────────────────────
+
+To implement runtime theme switching in the future:
+
+  1. Create ThemeSwitcher class
+  2. Store theme preference in AppConfig (services.json)
+  3. Listen for theme changes via WebSocket
+  4. Call Theme.setMode(Theme.Mode.DARK) or LIGHT
+  5. Refresh all CSS styles in panels
+
+───────────────────────────────────────────────────────────────────────────────
+PERFORMANCE NOTES
+───────────────────────────────────────────────────────────────────────────────
+
+• ToastNotification creates one thread per notification (auto-cleanup)
+• ConnectionIndicator pulse animation runs continuously when connected
+• SearchBar filters on every keystroke (may need debouncing for large datasets)
+• InfoCard updates are immediate (no async needed)
+• All WebSocket updates use Platform.runLater() for thread safety
+
+Consider adding:
+  • Debounce for search input (500ms delay)
+  • Virtual table scrolling for large datasets
+  • Lazy loading for transfer history
+
+═════════════════════════════════════════════════════════════════════════════════
