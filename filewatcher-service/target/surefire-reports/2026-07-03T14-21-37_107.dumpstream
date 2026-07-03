@@ -1,0 +1,5 @@
+# Created at 2026-07-03T14:21:39.449
+Boot Manifest-JAR contains absolute paths in classpath 'D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-service\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

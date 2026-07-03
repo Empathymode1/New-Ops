@@ -3038,3 +3038,69 @@ Jul 01, 2026 11:23:07 PM com.filewatcherservice.service.ServiceWebSocketServer o
 INFO: UI connected: /127.0.0.1:60483
 Jul 01, 2026 11:25:11 PM com.filewatcherservice.service.ServiceMain lambda$start$1
 INFO: FileWatcher service shutting down...
+Jul 03, 2026 2:22:38 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 03, 2026 2:22:38 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 03, 2026 2:22:38 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 03, 2026 2:22:39 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service starting...
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: Active config: AppConfig{websocketPort=9876, websocketHost='localhost', defaultIntervalSeconds=120, pollingFallbackEnabled=true, logLevel='INFO', logMaxFileSizeMb=10, logMaxFileCount=5, schedulerThreadPoolSize=4, heartbeatIntervalSeconds=60, sshConnectTimeoutMs=10000, sftpChannelTimeoutMs=5000, maxConcurrentTransfers=0}
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 2/3] Initializing SQLite and creating tables...
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.database.DatabaseService <init>
+INFO: DatabaseService: connected to D:\Data\monitor.db
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] Loading persisted jobs...
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 4] 1 job(s) loaded from database
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Scheduler ready (pool size: 4)
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 5] Heartbeat scheduled every 60s
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Starting file watchers...
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 6] Restored and started job: test
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 7] Socket services — not yet implemented, skipping
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.FileWatcherService runInboundWatcher
+INFO: INBOUND — remote OS: null (user-supplied) — local OS: WINDOWS [ReadDirectoryChangesW]
+Jul 03, 2026 2:28:33 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 8] Starting WebSocket server on port 9876...
+Jul 03, 2026 2:28:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: [Phase 9/10] WebSocket server ready — waiting for UI on ws://localhost:9876
+Jul 03, 2026 2:28:34 PM com.filewatcherservice.service.ServiceMain start
+INFO: FileWatcher service started successfully
+Jul 03, 2026 2:28:34 PM com.filewatcherservice.service.ServiceWebSocketServer onStart
+INFO: WebSocket server started on ws://localhost:9876
+Jul 03, 2026 2:36:05 PM com.filewatcherservice.service.ServiceMain lambda$start$1
+INFO: FileWatcher service shutting down...

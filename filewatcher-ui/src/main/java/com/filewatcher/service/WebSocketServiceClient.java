@@ -90,7 +90,7 @@ public class WebSocketServiceClient implements ServiceClient {
                 })
                 .exceptionally(ex -> {
                     connected = false;
-                    notify(new ServiceEvent(ServiceEventType.CONNECTION_LOST, null, null, null, null, null, LocalTime.now()));
+                    notifyEvent(new ServiceEvent(ServiceEventType.CONNECTION_LOST, null, null, null, null, null, LocalTime.now()));
                     scheduleReconnect();
                     return null;
                 });
@@ -155,7 +155,7 @@ public class WebSocketServiceClient implements ServiceClient {
             if (manuallyClosed) return;
             connect().thenRun(() -> {
                 if (connected) {
-                    notify(new ServiceEvent(ServiceEventType.CONNECTION_RESTORED, null, null, null, null, null, LocalTime.now()));
+                    notifyEvent(new ServiceEvent(ServiceEventType.CONNECTION_RESTORED, null, null, null, null, null, LocalTime.now()));
                     // Per contract §3: state may have changed while disconnected — refresh.
                     requestInitialSnapshot();
                 }
@@ -254,10 +254,10 @@ public class WebSocketServiceClient implements ServiceClient {
         JobStatus newStatus = newStatusStr != null ? parseStatus(newStatusStr) : null;
         LocalTime timestamp = parseTimestamp(optString(obj, "timestamp", null));
 
-        notify(new ServiceEvent(eventType, jobId, jobName, filename, message, newStatus, timestamp));
+        notifyEvent(new ServiceEvent(eventType, jobId, jobName, filename, message, newStatus, timestamp));
     }
 
-    private void notify(ServiceEvent event) {
+    private void notifyEvent(ServiceEvent event) {
         for (Consumer<ServiceEvent> l : listeners) {
             l.accept(event);
         }
@@ -319,7 +319,7 @@ public class WebSocketServiceClient implements ServiceClient {
             boolean wasConnected = connected;
             connected = false;
             if (wasConnected) {
-                notify(new ServiceEvent(ServiceEventType.CONNECTION_LOST, null, null, null, null, null, LocalTime.now()));
+                notifyEvent(new ServiceEvent(ServiceEventType.CONNECTION_LOST, null, null, null, null, null, LocalTime.now()));
             }
             scheduleReconnect();
             return null;
@@ -330,7 +330,7 @@ public class WebSocketServiceClient implements ServiceClient {
             boolean wasConnected = connected;
             connected = false;
             if (wasConnected) {
-                notify(new ServiceEvent(ServiceEventType.CONNECTION_LOST, null, null, null, null, null, LocalTime.now()));
+                notifyEvent(new ServiceEvent(ServiceEventType.CONNECTION_LOST, null, null, null, null, null, LocalTime.now()));
             }
             scheduleReconnect();
         }

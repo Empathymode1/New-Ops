@@ -82,8 +82,6 @@ public class SampleBackendServer extends WebSocketServer {
     // ------------------------------------------------------------------
 
     private void seedDemoJobs() {
-        addJob("job-1", "PAX-Manifest-Sync", "SFTP Watch", "/export/pax/manifests", "sftp://dcs01/inbound",
-                "15s", "dcs-svc-account", "RUNNING", 342, "12s ago", "Polling source directory");
         addJob("job-2", "Baggage-EDI-Feed", "SFTP Watch", "/export/bhs/edi", "sftp://bags-hub/in",
                 "30s", "bhs-svc-account", "RUNNING", 118, "44s ago", "Polling source directory");
         addJob("job-3", "Cargo-Docs-Relay", "FTP Watch", "/cargo/outbound", "ftp://cargo-edge/docs",

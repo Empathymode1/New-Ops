@@ -28,9 +28,7 @@ public class MainApp extends Application {
         // implementation for local dev/demo. Set -DuseMockBackend=true (or
         // env USE_MOCK_BACKEND=true) to fall back to the in-memory
         // MockServiceClient with no backend running at all.
-        client = useMockBackend()
-                ? new MockServiceClient(state)
-                : new WebSocketServiceClient(state);
+        client =  new WebSocketServiceClient(state);
         // ---------------------------------------------------------------------
 
         EventDispatcher dispatcher = new EventDispatcher(state, client);
