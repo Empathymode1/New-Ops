@@ -2,6 +2,7 @@ package com.filewatcher;
 
 import com.filewatcher.service.MockServiceClient;
 import com.filewatcher.service.ServiceClient;
+import com.filewatcher.service.WebSocketServiceClient;
 import com.filewatcher.state.AppState;
 import com.filewatcher.theme.ThemeManager;
 import com.filewatcher.service.EventDispatcher;
@@ -13,16 +14,23 @@ import javafx.stage.Stage;
 
 public class MainApp extends Application {
 
+    private ServiceClient client;
+
     @Override
     public void start(Stage stage) {
         AppState state = AppState.seedDemoData();
 
         // --- Backend integration point -------------------------------------
-        // Swap this one line for `new WebSocketServiceClientSkeleton()` (fleshed
-        // out with your real endpoint + JSON parsing) once the Monitoring
-        // Service is available. Nothing else in the app needs to change,
-        // because every view is written against the ServiceClient interface.
-        ServiceClient client = new MockServiceClient(state);
+        // Speaks the "Relay <-> Monitoring Service" WebSocket contract
+        // (SNAPSHOT / EVENT / SNAPSHOT_REQUEST / COMMAND). Endpoint defaults
+        // to ws://localhost:8765/ws -- override with the RELAY_BACKEND_URL
+        // env var, or point it at the SampleBackendServer reference
+        // implementation for local dev/demo. Set -DuseMockBackend=true (or
+        // env USE_MOCK_BACKEND=true) to fall back to the in-memory
+        // MockServiceClient with no backend running at all.
+        client = useMockBackend()
+                ? new MockServiceClient(state)
+                : new WebSocketServiceClient(state);
         // ---------------------------------------------------------------------
 
         EventDispatcher dispatcher = new EventDispatcher(state, client);
@@ -46,8 +54,16 @@ public class MainApp extends Application {
 
     @Override
     public void stop() {
-        // client.disconnect() would go here if MainApp held a field reference;
-        // left as a start() local for brevity in this scaffold.
+        if (client != null) {
+            client.disconnect();
+        }
+    }
+
+    private static boolean useMockBackend() {
+        String prop = System.getProperty("useMockBackend");
+        if (prop != null) return Boolean.parseBoolean(prop);
+        String env = System.getenv("USE_MOCK_BACKEND");
+        return Boolean.parseBoolean(env);
     }
 
     public static void main(String[] args) {

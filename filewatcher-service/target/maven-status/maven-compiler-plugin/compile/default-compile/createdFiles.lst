@@ -16,12 +16,14 @@ com\filewatcherservice\database\TransferRepository.class
 com\filewatcherservice\database\DatabaseService.class
 com\filewatcherservice\config\AppConfig.class
 com\filewatcherservice\database\TransferRepository$LogEntry.class
+com\relay\devserver\SampleBackendServer$JobRecord.class
 com\filewatcherservice\scheduler\Scheduler.class
 com\filewatcherservice\config\ConfigLoader.class
 com\filewatcherservice\service\ServiceWebSocketServer.class
 com\filewatcherservice\service\FileWatcherService.class
 com\filewatcherservice\service\CredentialStore.class
 com\filewatcherservice\service\FileWatcherService$3.class
+com\relay\devserver\SampleBackendServer.class
 com\filewatcherservice\database\ServiceRepository.class
 com\filewatcherservice\database\DbLayerSmokeTest.class
 com\filewatcherservice\service\WatchJobService.class

@@ -6,7 +6,6 @@
 
 
     <artifactId>filewatcher-ui</artifactId>
-    <version>1.0.0</version>
     <packaging>jar</packaging>
 
 
@@ -38,6 +37,11 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-base</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <!-- JSON (de)serialization for WebSocketServiceClient -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
     </dependencies>
 

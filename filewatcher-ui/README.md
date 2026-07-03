@@ -25,6 +25,10 @@ This launches the app with a `MockServiceClient` that fires simulated
 transfer/status events every ~4 seconds — the same cadence as the HTML
 preview — so you can see the full UI live without a backend.
 
+By default the app is wired to `WebSocketServiceClient`, a real
+implementation of the backend contract (see "Wiring up the real backend"
+below) — pass `-DuseMockBackend=true` to use the in-memory mock instead.
+
 ## Project layout
 
 ```
@@ -32,8 +36,10 @@ src/main/java/com/relay/
 ├── MainApp.java, Main.java        → application entry point
 ├── model/                          → Job, JobStatus, TransferEvent, ActivityEvent, DashboardStats
 ├── service/                        → ServiceClient (integration interface), ServiceEvent,
-│                                      MockServiceClient (demo data), EventDispatcher,
-│                                      WebSocketServiceClientSkeleton (real-backend starting point)
+│                                      MockServiceClient (demo data), WebSocketServiceClient
+│                                      (real backend, see below), EventDispatcher,
+│                                      WebSocketServiceClientSkeleton (bare starting point
+│                                      for a different transport)
 ├── state/                          → AppState (single shared source of truth)
 ├── theme/                          → ThemeManager (dark/light runtime switch)
 └── ui/
@@ -50,37 +56,57 @@ src/main/resources/css/
 └── app.css                         → every component style, references variables only
 ```
 
-## Wiring up your real backend
+## Wiring up the real backend
 
 Every view in this app talks only to the `ServiceClient` interface —
-never to a concrete networking class. To go live:
+never to a concrete networking class. The app is now wired against a real
+implementation, `service/WebSocketServiceClient.java`, which speaks the
+plain-JSON contract in `docs/relay-monitoring-ws-contract.md`:
 
-1. Open `service/WebSocketServiceClientSkeleton.java`. It already has the
-   full `java.net.http.WebSocket` connection lifecycle stubbed out
-   (`connect`, `onText`, `onClose`, `onError`, `sendCommand`,
-   `requestInitialSnapshot`) with `TODO` markers showing exactly where to:
-   - point it at your real WebSocket URL,
-   - deserialize inbound JSON into `ServiceEvent` (Jackson/Gson — add
-     whichever you prefer to `pom.xml`),
-   - serialize outbound `JobCommand`s in the shape your backend expects.
-2. In `MainApp.start(...)`, change:
-   ```java
-   ServiceClient client = new MockServiceClient(state);
-   ```
-   to:
-   ```java
-   ServiceClient client = new WebSocketServiceClientSkeleton();
-   ```
-3. That's it — `EventDispatcher` already applies every `ServiceEvent` to
-   `AppState` on the JavaFX Application Thread via `Platform.runLater`,
-   and every table/card/list in the UI is bound to `AppState`'s
-   observable properties, so real events will flow straight through to
-   the screen with no other code changes.
+- **Server → Client**: `SNAPSHOT` (full job list, applied straight onto
+  `AppState`) and `EVENT` (converted to a `ServiceEvent` and dispatched
+  through the existing `EventDispatcher`/`Platform.runLater` path).
+- **Client → Server**: `SNAPSHOT_REQUEST` and `COMMAND`
+  (`sendCommand(jobId, JobCommand)` — the single seam the UI already calls
+  for Start/Stop/Restart/Delete/Test Connection).
+- Auto-reconnects with exponential backoff (2s/4s/8s/16s, capped at 30s)
+  and re-requests a fresh snapshot once reconnected, per the contract's
+  connection-lifecycle section.
 
-If your backend also exposes a REST API for job CRUD (Add/Edit/Delete),
-implement those calls in the same `ServiceClient` implementation —
-`sendCommand(jobId, JobCommand)` is the single seam the UI already calls
-for Start/Stop/Restart/Delete/Test Connection.
+By default it connects to `ws://localhost:8765/ws`. Override with:
+
+```bash
+RELAY_BACKEND_URL=ws://your-host:port/ws mvn javafx:run
+```
+
+To fall back to the old in-memory `MockServiceClient` (no backend needed
+at all), run with `-DuseMockBackend=true` or `USE_MOCK_BACKEND=true`.
+
+### Try it against the reference dev backend
+
+`filewatcher-service` ships a small standalone server,
+`com.relay.devserver.SampleBackendServer`, that implements this exact
+contract (same demo jobs/cadence as `MockServiceClient`). Run it in one
+terminal:
+
+```bash
+mvn -pl filewatcher-service exec:java -Dexec.mainClass=com.relay.devserver.SampleBackendServer
+```
+
+...and the UI in another (defaults already point at it):
+
+```bash
+mvn -pl filewatcher-ui javafx:run
+```
+
+You should see the same live table/activity feed/toast behavior as the
+mock, but now flowing over a real WebSocket connection end to end — kill
+and restart the server to see the reconnect/backoff behavior and the
+"Reconnecting…" status chip.
+
+`WebSocketServiceClientSkeleton.java` is left in place as a bare-bones
+reference for anyone building a client for a *different* transport (REST
++ SSE, gRPC, etc.) from scratch.
 
 ## What's stubbed / simplified
 

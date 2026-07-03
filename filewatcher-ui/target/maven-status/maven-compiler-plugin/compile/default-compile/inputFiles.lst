@@ -11,6 +11,7 @@ D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-ui\src\main\java\com\filewat
 D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-ui\src\main\java\com\filewatcher\service\ServiceClient.java
 D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-ui\src\main\java\com\filewatcher\service\ServiceEvent.java
 D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-ui\src\main\java\com\filewatcher\service\ServiceEventType.java
+D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-ui\src\main\java\com\filewatcher\service\WebSocketServiceClient.java
 D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-ui\src\main\java\com\filewatcher\service\WebSocketServiceClientSkeleton.java
 D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-ui\src\main\java\com\filewatcher\state\AppState.java
 D:\New-Ops Tool\FileWatcher\FileWatcher\filewatcher-ui\src\main\java\com\filewatcher\theme\ThemeManager.java
