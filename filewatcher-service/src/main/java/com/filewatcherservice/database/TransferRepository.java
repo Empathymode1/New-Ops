@@ -98,6 +98,46 @@ public class TransferRepository {
         return query(sql, ps -> ps.setInt(1, limit));
     }
 
+    /**
+     * Combined filter query backing the contract's LOGS_REQUEST (§2.9) —
+     * every parameter is optional (null = don't filter on that dimension)
+     * and whichever are present get ANDed together, unlike the fixed
+     * single-purpose queries above (findByJobId/search/findByEventType),
+     * which each only filter on one thing.
+     */
+    public synchronized List<LogEntry> queryFiltered(String jobId, String eventType, String searchText,
+                                                       LocalDateTime since, int limit) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM transfer_logs WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+        if (jobId != null && !jobId.isBlank()) {
+            sql.append(" AND job_id = ?");
+            params.add(jobId);
+        }
+        if (eventType != null && !eventType.isBlank()) {
+            sql.append(" AND event_type = ?");
+            params.add(eventType);
+        }
+        if (searchText != null && !searchText.isBlank()) {
+            sql.append(" AND (job_name LIKE ? OR filename LIKE ? OR message LIKE ?)");
+            String like = "%" + searchText + "%";
+            params.add(like);
+            params.add(like);
+            params.add(like);
+        }
+        if (since != null) {
+            sql.append(" AND occurred_at >= ?");
+            params.add(since.toString());
+        }
+        sql.append(" ORDER BY occurred_at DESC LIMIT ?");
+        params.add(limit);
+
+        return query(sql.toString(), ps -> {
+            for (int i = 0; i < params.size(); i++) {
+                ps.setObject(i + 1, params.get(i));
+            }
+        });
+    }
+
     private List<LogEntry> query(String sql, SqlBinder binder) {
         List<LogEntry> results = new ArrayList<>();
         try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {

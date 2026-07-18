@@ -23,6 +23,15 @@ import java.util.logging.Logger;
  * Embedded WebSocket server. Host and port are driven by AppConfig
  * (services.json: websocketHost / websocketPort), not hardcoded.
  *
+ * NOTE: as of the "Relay ↔ Monitoring Service" contract adoption
+ * (docs/relay-monitoring-ws-contract.md), {@link ServiceMain} no longer
+ * starts this class by default — it starts {@link RelayWebSocketServer},
+ * which speaks that contract's SNAPSHOT/EVENT/SNAPSHOT_REQUEST/COMMAND
+ * protocol and is what the current JavaFX WebSocketServiceClient talks to.
+ * This class (the older INIT/JOB_STATE/GET_JOBS/... protocol) is left in
+ * place for anyone still integrating against it, but it is unused by the
+ * shipped service unless you wire it back up in ServiceMain yourself.
+ *
  * CHANGE: job lifecycle commands (START_JOB, STOP_JOB, START_ALL, STOP_ALL,
  * ADD_JOB, UPDATE_JOB, DELETE_JOB) now go through ServiceManager instead of
  * calling FileWatcherService/JobStore directly. ServiceManager handles both

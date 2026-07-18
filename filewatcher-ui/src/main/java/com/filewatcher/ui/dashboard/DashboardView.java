@@ -143,15 +143,17 @@ public class DashboardView extends VBox {
         VBox activityPanel = panel("Recent Activity", activityList);
         HBox.setHgrow(activityPanel, Priority.ALWAYS);
 
-        // Health Overview
+        // Health Overview — populated end-to-end from the backend's periodic
+        // HEALTH message (contract §1.4); WebSocket derives from the same
+        // connection-state signal the "WebSocket Status" card above uses.
         VBox health = new VBox(9);
         health.setPadding(new Insets(12, 14, 12, 14));
         health.getChildren().addAll(
-                healthRow("Database", true),
-                healthRow("Scheduler", true),
-                healthRow("WebSocket", true),
-                healthRow("Monitoring Service", true),
-                healthRow("Socket Service (beta)", false)
+                healthRow("Database", state.getStats().databaseHealthProperty()),
+                healthRow("Scheduler", state.getStats().schedulerHealthProperty()),
+                healthRowFromWebSocketStatus("WebSocket", state.getStats().webSocketStatusProperty()),
+                healthRow("Monitoring Service", state.getStats().monitoringServiceHealthProperty()),
+                healthRow("Socket Service (beta)", state.getStats().socketServiceHealthProperty())
         );
         VBox healthPanel = panel("Health Overview", health);
         healthPanel.setPrefWidth(320);
@@ -160,16 +162,55 @@ public class DashboardView extends VBox {
         return row;
     }
 
-    private HBox healthRow(String label, boolean healthy) {
+    /** Live health row bound to a "HEALTHY"/"UNHEALTHY"/"DISABLED"/"UNKNOWN" status string. */
+    private HBox healthRow(String label, javafx.beans.property.StringProperty status) {
         Label l = new Label(label);
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        Label badge = new Label(healthy ? "Healthy" : "Disabled");
-        badge.getStyleClass().addAll("badge", healthy ? "badge-running" : "badge-disabled");
+        Label badge = new Label();
         HBox row = new HBox(8, l, spacer, badge);
         row.getStyleClass().add("health-row");
         row.setAlignment(Pos.CENTER_LEFT);
+
+        Runnable update = () -> applyHealthBadge(badge, status.get());
+        status.addListener((o, ov, nv) -> update.run());
+        update.run();
         return row;
+    }
+
+    /** WebSocket's health row reuses the existing connection-status string rather than a separate one. */
+    private HBox healthRowFromWebSocketStatus(String label, javafx.beans.property.StringProperty connectionStatus) {
+        Label l = new Label(label);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        Label badge = new Label();
+        HBox row = new HBox(8, l, spacer, badge);
+        row.getStyleClass().add("health-row");
+        row.setAlignment(Pos.CENTER_LEFT);
+
+        Runnable update = () -> applyHealthBadge(badge,
+                "Connected".equalsIgnoreCase(connectionStatus.get()) ? "HEALTHY" : "UNHEALTHY");
+        connectionStatus.addListener((o, ov, nv) -> update.run());
+        update.run();
+        return row;
+    }
+
+    private void applyHealthBadge(Label badge, String status) {
+        String s = status == null ? "UNKNOWN" : status;
+        String text = switch (s) {
+            case "HEALTHY" -> "Healthy";
+            case "DISABLED" -> "Disabled";
+            case "UNHEALTHY" -> "Unhealthy";
+            default -> "Checking…";
+        };
+        String styleClass = switch (s) {
+            case "HEALTHY" -> "badge-running";
+            case "DISABLED" -> "badge-disabled";
+            case "UNHEALTHY" -> "badge-stopped";
+            default -> "badge-disabled";
+        };
+        badge.setText(text);
+        badge.getStyleClass().setAll("badge", styleClass);
     }
 
     private VBox panel(String title, javafx.scene.Node content) {

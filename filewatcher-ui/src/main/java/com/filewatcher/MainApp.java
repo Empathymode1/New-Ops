@@ -11,6 +11,7 @@ import com.filewatcher.ui.shell.MainShell;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class MainApp extends Application {
 
@@ -18,17 +19,27 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        AppState state = AppState.seedDemoData();
+        boolean mock = useMockBackend();
+
+        // AppState.seedDemoData() pre-populates the same 7 fake jobs the mock
+        // uses. Only seed it for the mock client -- for a real backend we want
+        // an honestly empty state until its first SNAPSHOT arrives, otherwise
+        // this canned data would sit on screen indefinitely (indistinguishable
+        // from the mock) if the backend is slow to connect or isn't running.
+        AppState state = mock ? AppState.seedDemoData() : new AppState();
 
         // --- Backend integration point -------------------------------------
         // Speaks the "Relay <-> Monitoring Service" WebSocket contract
         // (SNAPSHOT / EVENT / SNAPSHOT_REQUEST / COMMAND). Endpoint defaults
         // to ws://localhost:8765/ws -- override with the RELAY_BACKEND_URL
-        // env var, or point it at the SampleBackendServer reference
-        // implementation for local dev/demo. Set -DuseMockBackend=true (or
-        // env USE_MOCK_BACKEND=true) to fall back to the in-memory
-        // MockServiceClient with no backend running at all.
-        client =  new WebSocketServiceClient(state);
+        // env var to point it at the real filewatcher-service backend
+        // (services.json's websocketHost/websocketPort, default port 9876).
+        // Set -DuseMockBackend=true (or env USE_MOCK_BACKEND=true) to fall
+        // back to the in-memory MockServiceClient with no backend running
+        // at all.
+        client = mock
+                ? new MockServiceClient(state)
+                : new WebSocketServiceClient(state);
         // ---------------------------------------------------------------------
 
         EventDispatcher dispatcher = new EventDispatcher(state, client);
@@ -41,8 +52,11 @@ public class MainApp extends Application {
         themeManager.attach(scene);
         shell.registerShortcuts(scene);
 
+        stage.initStyle(StageStyle.DECORATED); // explicit, not relied-on-by-default: guarantees the
+                                                // OS's native minimize/maximize/close window chrome.
         stage.setTitle("Relay — Transfer Monitoring Console");
         stage.setScene(scene);
+        stage.setResizable(true); // required for the native maximize button to do anything
         stage.setMinWidth(1024);
         stage.setMinHeight(680);
         stage.show();

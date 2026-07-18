@@ -80,6 +80,7 @@ public class ServiceManager {
             return;
         }
         service.start();
+        persistStatusIfWatchJob(id);
     }
 
     public void stop(String id) {
@@ -89,22 +90,39 @@ public class ServiceManager {
             return;
         }
         service.stop();
+        persistStatusIfWatchJob(id);
     }
 
     public void startAll() {
-        services.values().forEach(s -> {
-            try { s.start(); } catch (Exception e) {
-                LOG.warning("ServiceManager: startAll() — failed to start " + s.getId() + " — " + e.getMessage());
+        services.keySet().forEach(id -> {
+            try { start(id); } catch (Exception e) {
+                LOG.warning("ServiceManager: startAll() — failed to start " + id + " — " + e.getMessage());
             }
         });
     }
 
     public void stopAll() {
-        services.values().forEach(s -> {
-            try { s.stop(); } catch (Exception e) {
-                LOG.warning("ServiceManager: stopAll() — failed to stop " + s.getId() + " — " + e.getMessage());
+        services.keySet().forEach(id -> {
+            try { stop(id); } catch (Exception e) {
+                LOG.warning("ServiceManager: stopAll() — failed to stop " + id + " — " + e.getMessage());
             }
         });
+    }
+
+    /**
+     * Persists the resulting status after a start()/stop() call — without
+     * this, a job's operational state (running vs. stopped) only ever
+     * existed in memory. That meant Stop wasn't durable: every job got
+     * force-started on the next boot regardless of whether an operator had
+     * deliberately stopped it (see ServiceMain Phase 6, which now checks
+     * this persisted status before auto-starting). No-op for non-watch-job
+     * services (getWatchJob returns null for those).
+     */
+    private void persistStatusIfWatchJob(String id) {
+        WatchJob job = watcherEngine.getJob(id);
+        if (job != null) {
+            jobStore.save(java.util.List.of(job));
+        }
     }
 
     // ── Watch-job-specific convenience methods ──────────────────────────────

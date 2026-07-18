@@ -29,10 +29,24 @@ public class StatusBar extends HBox {
         setPadding(new Insets(0, 16, 0, 16));
         setPrefHeight(28);
 
-        Circle greenDot = new Circle(3.5);
-        greenDot.getStyleClass().add("status-dot-green");
-        Circle blueDot = new Circle(3.5);
-        blueDot.getStyleClass().add("status-dot-blue");
+        Circle serviceDot = new Circle(3.5);
+        Circle wsDot = new Circle(3.5);
+        Label serviceLabel = new Label();
+        Label wsLabel = new Label();
+
+        // BUG FIX: "Service Connected" / "WebSocket Live" (and their dot colors) used to
+        // be permanently hardcoded text/style, regardless of whether the backend was
+        // actually reachable. Both now reflect the same live signal the top-right chip
+        // and Dashboard's Health Overview WebSocket row use.
+        Runnable updateConn = () -> {
+            boolean connected = "Connected".equalsIgnoreCase(state.getStats().webSocketStatusProperty().get());
+            serviceDot.getStyleClass().setAll(connected ? "status-dot-green" : "status-dot-red");
+            wsDot.getStyleClass().setAll(connected ? "status-dot-blue" : "status-dot-red");
+            serviceLabel.setText(connected ? "Service Connected" : "Service Disconnected");
+            wsLabel.setText(connected ? "WebSocket Live" : "WebSocket Reconnecting…");
+        };
+        state.getStats().webSocketStatusProperty().addListener((o, ov, nv) -> updateConn.run());
+        updateConn.run();
 
         jobsLabel.getStyleClass().add("mono-label");
         state.getStats().runningJobsProperty().addListener((o, ov, nv) -> updateJobsLabel(state));
@@ -45,13 +59,13 @@ public class StatusBar extends HBox {
         clock.getStyleClass().add("mono-label");
 
         getChildren().addAll(
-                seg(greenDot, "Service Connected"),
+                seg(serviceDot, null, serviceLabel),
                 sep(),
                 seg(null, "Scheduler: Running"),
                 sep(),
                 seg(null, "Jobs:"), jobsLabel,
                 sep(),
-                seg(blueDot, "WebSocket Live"),
+                seg(wsDot, null, wsLabel),
                 grow,
                 clock,
                 sep(),
@@ -75,10 +89,15 @@ public class StatusBar extends HBox {
     }
 
     private HBox seg(javafx.scene.Node icon, String text) {
+        return seg(icon, text, null);
+    }
+
+    /** Overload for segments whose text updates live (pass the same Label instance the caller keeps updating). */
+    private HBox seg(javafx.scene.Node icon, String text, Label dynamicLabel) {
         HBox box = new HBox(6);
         box.setAlignment(Pos.CENTER_LEFT);
         if (icon != null) box.getChildren().add(icon);
-        box.getChildren().add(new Label(text));
+        box.getChildren().add(dynamicLabel != null ? dynamicLabel : new Label(text));
         box.getStyleClass().add("status-seg");
         return box;
     }

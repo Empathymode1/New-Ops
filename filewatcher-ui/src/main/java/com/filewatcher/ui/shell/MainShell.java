@@ -4,6 +4,7 @@ import com.filewatcher.service.ServiceClient;
 import com.filewatcher.state.AppState;
 import com.filewatcher.theme.ThemeManager;
 import com.filewatcher.ui.components.ToastNotification;
+import com.filewatcher.ui.credentials.CredentialsView;
 import com.filewatcher.ui.dashboard.DashboardView;
 import com.filewatcher.ui.logs.LogsView;
 import com.filewatcher.ui.services.ServicesView;
@@ -32,7 +33,7 @@ public class MainShell extends StackPane {
         BorderPane border = new BorderPane();
         border.getStyleClass().add("app-shell");
 
-        TopToolbar toolbar = new TopToolbar(themeManager);
+        TopToolbar toolbar = new TopToolbar(themeManager, state);
         border.setTop(toolbar);
 
         sidebar = new SidebarNav(this::navigateTo);
@@ -40,7 +41,8 @@ public class MainShell extends StackPane {
 
         pages.put("dashboard", scrollable(new DashboardView(state)));
         pages.put("services", scrollable(new ServicesView(state, client)));
-        pages.put("logs", new LogsView(state)); // owns its own scrolling/overlay
+        pages.put("credentials", scrollable(new CredentialsView(state, client)));
+        pages.put("logs", new LogsView(state, client)); // owns its own scrolling/overlay
         pages.put("settings", scrollable(new SettingsView(themeManager)));
 
         pages.forEach((key, node) -> {

@@ -4,7 +4,7 @@ This is the wire format the JavaFX app (`WebSocketServiceClient`) speaks.
 It's plain JSON over a single WebSocket connection — language-agnostic, so
 the backend can be built in anything (Java, Node, Python, Go...).
 
-Endpoint (default, override via `RELAY_BACKEND_URL`): `ws://localhost:8765/ws`
+Endpoint (default, override via `RELAY_BACKEND_URL`): `ws://localhost:9876/ws`
 
 ---
 
@@ -125,3 +125,15 @@ lightweight `Java-WebSocket` library) and emits the same demo
 data/cadence as the JavaFX app's `MockServiceClient`. Run it and point
 the app at it to test the full real-time path before your real backend
 exists — see `filewatcher-ui/README.md` for how to run both.
+
+## 5. Production implementation
+
+The real service (`filewatcher-service`) now speaks this contract too, via
+`com.filewatcherservice.service.RelayWebSocketServer`, started by
+`ServiceMain` on `services.json`'s `websocketHost`/`websocketPort`
+(default port **9876** — note this differs from this doc's zero-config
+default of 8765; set `RELAY_BACKEND_URL=ws://localhost:9876/ws` on the UI
+side, or change `websocketPort` in `services.json`, to match). It drives
+real `WatchJob`s through `ServiceManager`/`FileWatcherService` instead of
+an in-memory demo list — see the class Javadoc for the exact
+WatchJob-status → contract-status mapping and other field-shape notes.

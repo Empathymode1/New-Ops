@@ -18,9 +18,11 @@ import javafx.scene.layout.VBox;
 public class JobDetailsPanel extends VBox {
 
     private final ServiceClient client;
+    private final com.filewatcher.state.AppState state;
 
-    public JobDetailsPanel(ServiceClient client) {
+    public JobDetailsPanel(ServiceClient client, com.filewatcher.state.AppState state) {
         this.client = client;
+        this.state = state;
         getStyleClass().add("details-panel");
         setPadding(new Insets(14));
         setPrefWidth(320);
@@ -49,15 +51,29 @@ public class JobDetailsPanel extends VBox {
         ));
 
         HBox actions = new HBox(8);
-        Button save = new Button("Save");
-        save.getStyleClass().addAll("btn", "btn-primary");
-        save.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(save, Priority.ALWAYS);
-        Button cancel = new Button("Cancel");
-        cancel.getStyleClass().add("btn");
-        cancel.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(cancel, Priority.ALWAYS);
-        actions.getChildren().addAll(save, cancel);
+        Button edit = new Button("Edit");
+        edit.getStyleClass().addAll("btn", "btn-primary");
+        edit.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(edit, Priority.ALWAYS);
+        edit.setOnAction(e -> {
+            com.filewatcher.model.WatchJobConfig prefill = job.getRawConfig();
+            if (prefill == null) {
+                prefill = new com.filewatcher.model.WatchJobConfig();
+                prefill.name = job.getName();
+            }
+            JobFormDialog.showEdit(edit, prefill, state, client).ifPresent(config ->
+                    client.updateJob(job.getId(), config).thenAccept(result -> javafx.application.Platform.runLater(() -> {
+                        if (result.success()) {
+                            ToastNotification.show("Job updated", config.name, false);
+                            // Not calling show(job) here: the fields it reads are only actually
+                            // updated once the backend's follow-up SNAPSHOT lands (contract §1.3),
+                            // which races this callback — re-selecting the job shows the fresh values.
+                        } else {
+                            ToastNotification.show("Couldn't save job", result.error(), true);
+                        }
+                    })));
+        });
+        actions.getChildren().add(edit);
 
         Button testConn = new Button("Test Connection");
         testConn.getStyleClass().add("btn");

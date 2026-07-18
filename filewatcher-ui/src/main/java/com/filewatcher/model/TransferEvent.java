@@ -13,6 +13,12 @@ public class TransferEvent {
     private final StringProperty duration = new SimpleStringProperty();
     private final StringProperty size = new SimpleStringProperty();
     private final StringProperty message = new SimpleStringProperty();
+    // Not shown directly anywhere -- lets TransferDetailsDialog look up related
+    // log entries (contract §2.9 LOGS_REQUEST) precisely by job rather than
+    // matching on jobName text. Null for events that predate this field
+    // (e.g. constructed before a job lookup succeeded) -- callers fall back
+    // to state.findJobByName(getJobName()) in that case.
+    private String jobId;
 
     public TransferEvent(String timestamp, String jobName, String filename, String eventType,
                           String status, String duration, String size, String message) {
@@ -25,6 +31,9 @@ public class TransferEvent {
         this.size.set(size);
         this.message.set(message);
     }
+
+    public String getJobId() { return jobId; }
+    public void setJobId(String jobId) { this.jobId = jobId; }
 
     public StringProperty timestampProperty() { return timestamp; }
     public StringProperty jobNameProperty() { return jobName; }

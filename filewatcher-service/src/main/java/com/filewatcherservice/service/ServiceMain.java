@@ -79,8 +79,19 @@ public class ServiceMain {
         for (WatchJob job : savedJobs) {
             watcherService.addJob(job);
             serviceManager.register(new WatchJobService(job, watcherService));
-            serviceManager.start(job.getId());
-            LOG.info("[Phase 6] Restored and started job: " + job.getName());
+            // Only resume jobs that were actively running (WATCHING/TRANSFERRING)
+            // when the service last stopped — a job an operator deliberately
+            // Stopped (status IDLE) should stay stopped after a restart, not
+            // silently come back. See ServiceManager.start()/stop(), which now
+            // persist status precisely so this check means something.
+            boolean wasRunning = job.getStatus() == WatchJob.Status.WATCHING
+                    || job.getStatus() == WatchJob.Status.TRANSFERRING;
+            if (wasRunning) {
+                serviceManager.start(job.getId());
+                LOG.info("[Phase 6] Restored and started job: " + job.getName());
+            } else {
+                LOG.info("[Phase 6] Restored job (left stopped, was " + job.getStatus() + "): " + job.getName());
+            }
         }
 
         // ── Phase 7: Start Socket Services ────────────────────────────────────
@@ -88,9 +99,14 @@ public class ServiceMain {
         LOG.info("[Phase 7] Socket services — not yet implemented, skipping");
 
         // ── Phase 8: Start WebSocket Server ───────────────────────────────────
+        // Speaks the "Relay <-> Monitoring Service" contract (SNAPSHOT / EVENT /
+        // SNAPSHOT_REQUEST / COMMAND) that the JavaFX app's WebSocketServiceClient
+        // consumes — see docs/relay-monitoring-ws-contract.md. The older
+        // ServiceWebSocketServer (INIT/JOB_STATE/GET_JOBS/... protocol) is left
+        // in the codebase but is no longer started by default.
         LOG.info("[Phase 8] Starting WebSocket server on port " + config.websocketPort + "...");
-        ServiceWebSocketServer wsServer = new ServiceWebSocketServer(
-                config.websocketHost, config.websocketPort, serviceManager, watcherService, notificationService, config);
+        RelayWebSocketServer wsServer = new RelayWebSocketServer(
+                config.websocketHost, config.websocketPort, serviceManager, watcherService, db, scheduler);
         wsServer.start();
 
         // ── Phase 9 & 10: UI Connects / Dashboard Ready ───────────────────────
@@ -125,7 +141,7 @@ public class ServiceMain {
 
             // §16 Step 6: Stop WebSocket Server
             LOG.info("[Shutdown 6] Stopping WebSocket server...");
-            try { wsServer.stop(); } catch (Exception ignored) {}
+            wsServer.shutdown();
 
             LOG.info("FileWatcher service stopped");
         }));

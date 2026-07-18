@@ -12,6 +12,7 @@ import com.filewatcherservice.scheduler.Scheduler;
 import com.jcraft.jsch.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Instant;
@@ -329,15 +330,20 @@ public class FileWatcherService {
         OsType localOs = OsType.local();
         LOG.info("OUTBOUND — local OS: " + localOs
                 + " — NIO backend: " + nioBackendLabel(localOs)
-                + " — remote: " + job.getSourceHost());
+                + " — remote: " + job.getDestHost());
 
         Session session = null;
         try {
-            session = openSshSession(job);
+            // BUG FIX: was openSshSession(job) -- which read job.getSourceHost() etc.
+            // For OUTBOUND, the remote side being pushed TO is dest (confirmed by
+            // handleOutboundChange below, which uploads to job.getDestPath() over
+            // this same session) -- so the session needs to authenticate with dest's
+            // credentials, not source's.
+            session = openSshSession(job.getDestHost(), job.getDestPort(), job.getDestUser(), job.getDestPassword());
             sshSessions.put(job.getId(), session);
 
             emit(new TransferEvent(job.getId(), job.getName(), TransferEvent.EventType.CONNECTED,
-                    "SSH connected to " + job.getSourceHost()
+                    "SSH connected to " + job.getDestHost()
                             + "; watching local [" + nioBackendLabel(localOs) + "]: " + job.getSourcePath()));
 
             Path watchPath = ensureDir(job.getSourcePath());
@@ -450,6 +456,13 @@ public class FileWatcherService {
 
     private void runInboundWatcher(WatchJob job) {
         OsType remoteOs = job.getRemoteOs();
+        // BUG FIX: switch(null) throws NPE before ever reaching the "default" case
+        // below -- and remoteOs was null for every job created through the UI
+        // (the Add/Edit Job form never asked for it, and the backend never set
+        // it from ADD_JOB/UPDATE_JOB). UNKNOWN already has well-defined
+        // behavior (falls back to SFTP polling) -- null should degrade to that
+        // instead of crashing the watcher outright.
+        if (remoteOs == null) remoteOs = OsType.UNKNOWN;
 
         LOG.info("INBOUND — remote OS: " + remoteOs
                 + " (user-supplied) — local OS: " + OsType.local()
@@ -457,7 +470,9 @@ public class FileWatcherService {
 
         Session session = null;
         try {
-            session = openSshSession(job);
+            // INBOUND's remote side genuinely is source (it's what's being watched) --
+            // this one was already correct, just updated for the new method signature.
+            session = openSshSession(job.getSourceHost(), job.getSourcePort(), job.getSourceUser(), job.getSourcePassword());
             sshSessions.put(job.getId(), session);
 
             emit(new TransferEvent(job.getId(), job.getName(), TransferEvent.EventType.CONNECTED,
@@ -725,11 +740,23 @@ public class FileWatcherService {
     // JSch helpers — timeouts from AppConfig
     // ══════════════════════════════════════════════════════════════════════════
 
-    private Session openSshSession(WatchJob job) throws JSchException {
+    /**
+     * Opens an SSH session against explicit connection details.
+     *
+     * BUG FIX: this used to be openSshSession(WatchJob job), which
+     * unconditionally read job.getSourceHost()/getSourceUser()/etc. — correct
+     * for INBOUND (where the remote side genuinely is the source, since
+     * that's what's being watched), but wrong for OUTBOUND, where the
+     * remote side being pushed to is the *dest* fields (confirmed by
+     * handleOutboundChange, which uploads to job.getDestPath() over this
+     * same session — it was authenticating with one side's credentials
+     * while talking to the other side's server). Callers now pass
+     * whichever side is actually remote for their direction explicitly.
+     */
+    private Session openSshSession(String host, int port, String user, String password) throws JSchException {
         JSch jsch = new JSch();
-        int port = job.getSourcePort() > 0 ? job.getSourcePort() : 22;
-        Session session = jsch.getSession(job.getSourceUser(), job.getSourceHost(), port);
-        session.setPassword(job.getSourcePassword());
+        Session session = jsch.getSession(user, host, port > 0 ? port : 22);
+        session.setPassword(password);
         session.setConfig("StrictHostKeyChecking", "no");
         session.setConfig("PreferredAuthentications", "password");
         session.connect(config.sshConnectTimeoutMs);   // was hardcoded 10_000
@@ -853,9 +880,60 @@ public class FileWatcherService {
         };
     }
 
+    /**
+     * Best-effort remote OS detection over the SSH connection already used
+     * for {@link #testCredential} — runs {@code uname -s} and interprets the
+     * output. Backs the job form's "Remote OS" auto-fill (contract §1.8's
+     * TEST_RAW_CONNECTION_RESULT.detectedOs) so the operator doesn't have to
+     * know or guess it themselves. Returns {@link OsType#UNKNOWN} on any
+     * failure — same safe fallback runInboundWatcher already treats as
+     * "use SFTP polling instead of a remote-exec watcher".
+     *
+     * uname failing (rather than returning something recognizable) is most
+     * consistent with Windows, since its default OpenSSH shell doesn't have
+     * uname — but that's a guess, not a certainty, so a genuinely
+     * unresponsive/erroring probe is reported as UNKNOWN rather than
+     * confidently wrong.
+     */
+    public OsType detectRemoteOs(CredentialStore.Credential cred) {
+        JSch jsch = new JSch();
+        Session session = null;
+        ChannelExec channel = null;
+        try {
+            int port = cred.getPort() > 0 ? cred.getPort() : 22;
+            session = jsch.getSession(cred.getUsername(), cred.getHost(), port);
+            session.setPassword(cred.getPassword());
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.setConfig("PreferredAuthentications", "password");
+            session.connect(config.sshConnectTimeoutMs);
+
+            channel = (ChannelExec) session.openChannel("exec");
+            channel.setCommand("uname -s");
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            channel.setOutputStream(out);
+            channel.connect(config.sshConnectTimeoutMs);
+
+            long deadline = System.currentTimeMillis() + 5000;
+            while (!channel.isClosed() && System.currentTimeMillis() < deadline) {
+                Thread.sleep(100);
+            }
+
+            String output = out.toString(StandardCharsets.UTF_8).trim().toLowerCase();
+            if (output.contains("linux")) return OsType.LINUX;
+            if (output.contains("darwin")) return OsType.MACOS;
+            if (!output.isBlank()) return OsType.UNKNOWN; // said *something*, just not one we recognize
+            return channel.getExitStatus() != 0 ? OsType.WINDOWS : OsType.UNKNOWN; // uname not found/failed == Windows guess
+        } catch (Exception e) {
+            return OsType.UNKNOWN;
+        } finally {
+            if (channel != null && channel.isConnected()) channel.disconnect();
+            if (session != null && session.isConnected()) session.disconnect();
+        }
+    }
+
     public String testCredential(CredentialStore.Credential cred) {
-        com.jcraft.jsch.JSch    jsch    = new com.jcraft.jsch.JSch();
-        com.jcraft.jsch.Session session = null;
+        JSch    jsch    = new JSch();
+        Session session = null;
         try {
             int port = cred.getPort() > 0 ? cred.getPort() : 22;
             session = jsch.getSession(cred.getUsername(), cred.getHost(), port);
@@ -864,9 +942,55 @@ public class FileWatcherService {
             session.setConfig("PreferredAuthentications", "password");
             session.connect(config.sshConnectTimeoutMs);
             return null;
-        } catch (com.jcraft.jsch.JSchException e) {
+        } catch (JSchException e) {
             return e.getMessage();
         } finally {
+            if (session != null && session.isConnected()) session.disconnect();
+        }
+    }
+
+    /**
+     * Connects via SFTP and lists a remote directory — backs BROWSE_REMOTE
+     * (contract §2.11), so a client can pick a job's source/dest path by
+     * clicking through folders instead of typing one blind. {@code path}
+     * of null/blank means "wherever the SSH session's default working
+     * directory is" (typically the account's home directory).
+     */
+    public RemoteListing listRemoteDirectory(CredentialStore.Credential cred, String path) {
+        JSch jsch = new JSch();
+        Session session = null;
+        ChannelSftp channel = null;
+        try {
+            int port = cred.getPort() > 0 ? cred.getPort() : 22;
+            session = jsch.getSession(cred.getUsername(), cred.getHost(), port);
+            session.setPassword(cred.getPassword());
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.setConfig("PreferredAuthentications", "password");
+            session.connect(config.sshConnectTimeoutMs);
+
+            channel = (ChannelSftp) session.openChannel("sftp");
+            channel.connect(config.sshConnectTimeoutMs);
+
+            if (path != null && !path.isBlank()) {
+                channel.cd(path);
+            }
+            String currentPath = channel.pwd();
+
+            List<RemoteEntry> entries = new ArrayList<>();
+            for (Object o : channel.ls(currentPath)) {
+                ChannelSftp.LsEntry lsEntry = (ChannelSftp.LsEntry) o;
+                String name = lsEntry.getFilename();
+                if (".".equals(name) || "..".equals(name)) continue;
+                entries.add(new RemoteEntry(name, lsEntry.getAttrs().isDir()));
+            }
+            entries.sort(Comparator.comparing((RemoteEntry e) -> !e.directory())
+                    .thenComparing(RemoteEntry::name, String.CASE_INSENSITIVE_ORDER));
+
+            return new RemoteListing(currentPath, entries, null);
+        } catch (Exception e) {
+            return RemoteListing.failed(path, e.getMessage());
+        } finally {
+            if (channel != null && channel.isConnected()) channel.disconnect();
             if (session != null && session.isConnected()) session.disconnect();
         }
     }

@@ -59,6 +59,7 @@ public class ServiceRepository {
                 last_error=excluded.last_error, last_transfer=excluded.last_transfer
         """;
         try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
+            LOG.fine(() -> "ServiceRepository: save (INSERT ... ON CONFLICT UPDATE) for job id=" + job.getId() + ", name=" + job.getName());
             int i = 1;
             ps.setString(i++, job.getId());
             ps.setString(i++, job.getName());
@@ -97,10 +98,12 @@ public class ServiceRepository {
     }
 
     public synchronized void delete(String jobId) {
+        LOG.fine(() -> "ServiceRepository: DELETE FROM services WHERE id = " + jobId);
         try (PreparedStatement ps = db.getConnection()
                 .prepareStatement("DELETE FROM services WHERE id = ?")) {
             ps.setString(1, jobId);
-            ps.executeUpdate();
+            int affected = ps.executeUpdate();
+            LOG.fine(() -> "ServiceRepository: delete affected " + affected + " row(s) for id=" + jobId);
         } catch (SQLException e) {
             LOG.warning("ServiceRepository: delete failed for job " + jobId + " — " + e.getMessage());
         }
@@ -111,17 +114,53 @@ public class ServiceRepository {
     public synchronized List<WatchJob> findAll() {
         List<WatchJob> jobs = new ArrayList<>();
         String sql = "SELECT * FROM services";
+        LOG.fine(() -> "ServiceRepository: executing: " + sql);
         try (Statement st = db.getConnection().createStatement();
              ResultSet rs = st.executeQuery(sql)) {
-            while (rs.next()) jobs.add(mapRow(rs));
+            int rowNum = 0;
+            while (rs.next()) {
+                rowNum++;
+                // Read id/name defensively *before* full mapping, so a bad
+                // enum/date value elsewhere in the row still lets us log
+                // which job failed instead of just "something went wrong".
+                String rawId = safeGetString(rs, "id");
+                String rawName = safeGetString(rs, "name");
+                try {
+                    jobs.add(mapRow(rs));
+                } catch (Exception e) {
+                    // Deliberately catches more than SQLException: enum parsing
+                    // (WatchJob.Status.valueOf, etc.) and LocalDateTime.parse
+                    // both throw unchecked exceptions on bad data, and without
+                    // this they'd propagate out of findAll() entirely — silently
+                    // discarding every OTHER job in the table, not just the bad
+                    // row. One malformed row should not take down the whole load.
+                    LOG.warning("ServiceRepository: skipping row " + rowNum
+                            + " (id=" + rawId + ", name=" + rawName + ") — failed to map: "
+                            + e.getClass().getSimpleName() + ": " + e.getMessage());
+                }
+            }
+            LOG.fine("ServiceRepository: " + sql + " returned " + rowNum(rowNum) + ", " + jobs.size() + " mapped successfully");
         } catch (SQLException e) {
             LOG.warning("ServiceRepository: findAll failed — " + e.getMessage());
         }
         return jobs;
     }
 
+    private static String rowNum(int n) {
+        return n + " row" + (n == 1 ? "" : "s");
+    }
+
+    private static String safeGetString(ResultSet rs, String column) {
+        try {
+            return rs.getString(column);
+        } catch (SQLException e) {
+            return "<unreadable>";
+        }
+    }
+
     public synchronized WatchJob findById(String id) {
         String sql = "SELECT * FROM services WHERE id = ?";
+        LOG.fine(() -> "ServiceRepository: " + sql + " [id=" + id + "]");
         try (PreparedStatement ps = db.getConnection().prepareStatement(sql)) {
             ps.setString(1, id);
             try (ResultSet rs = ps.executeQuery()) {

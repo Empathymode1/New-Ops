@@ -96,6 +96,16 @@ public class Scheduler {
     }
 
     /**
+     * True while the underlying executor is accepting/running tasks —
+     * false once {@link #shutdown()} has been called. Used for the
+     * dashboard's Health Overview (contract §1.4); not a deep health
+     * check, just "is this thing alive".
+     */
+    public boolean isRunning() {
+        return !executor.isShutdown();
+    }
+
+    /**
      * Cancel all registered tasks and shut down the executor.
      * Called once during application shutdown (§16 of architecture doc).
      */

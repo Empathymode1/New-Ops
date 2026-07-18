@@ -81,6 +81,64 @@ public class WebSocketServiceClientSkeleton implements ServiceClient {
         return webSocket.sendText(payload, true).thenApply(ws -> null);
     }
 
+    @Override
+    public CompletableFuture<JobSaveResult> addJob(com.filewatcher.model.WatchJobConfig config) {
+        // TODO: send an ADD_JOB message (see docs/relay-monitoring-ws-contract.md §2.3),
+        // track it by a generated requestId, and resolve this future from the
+        // matching JOB_SAVED/JOB_SAVE_FAILED reply — see WebSocketServiceClient
+        // for a complete implementation to copy from.
+        return CompletableFuture.failedFuture(new UnsupportedOperationException("addJob not implemented in skeleton"));
+    }
+
+    @Override
+    public CompletableFuture<JobSaveResult> updateJob(String jobId, com.filewatcher.model.WatchJobConfig config) {
+        // TODO: same as addJob, but send UPDATE_JOB (§2.4) with jobId included.
+        return CompletableFuture.failedFuture(new UnsupportedOperationException("updateJob not implemented in skeleton"));
+    }
+
+    @Override
+    public CompletableFuture<Void> requestCredentials() {
+        // TODO: send CREDENTIALS_REQUEST (§2.5); the backend also pushes CREDENTIALS_SNAPSHOT
+        // unprompted right after connect, so this is only needed for an explicit refresh.
+        return CompletableFuture.failedFuture(new UnsupportedOperationException("requestCredentials not implemented in skeleton"));
+    }
+
+    @Override
+    public CompletableFuture<JobSaveResult> addCredential(com.filewatcher.model.CredentialConfig config) {
+        // TODO: send ADD_CREDENTIAL (§2.6) — see WebSocketServiceClient.sendCredentialSave for a complete implementation to copy from.
+        return CompletableFuture.failedFuture(new UnsupportedOperationException("addCredential not implemented in skeleton"));
+    }
+
+    @Override
+    public CompletableFuture<JobSaveResult> updateCredential(String credentialId, com.filewatcher.model.CredentialConfig config) {
+        // TODO: send UPDATE_CREDENTIAL (§2.7) with credentialId included.
+        return CompletableFuture.failedFuture(new UnsupportedOperationException("updateCredential not implemented in skeleton"));
+    }
+
+    @Override
+    public void deleteCredential(String credentialId) {
+        // TODO: send DELETE_CREDENTIAL (§2.8) — fire-and-forget, like job DELETE.
+    }
+
+    @Override
+    public CompletableFuture<java.util.List<com.filewatcher.model.TransferLogEntry>> requestLogs(LogsQuery query) {
+        // TODO: send LOGS_REQUEST (§2.9), correlate the LOGS_RESPONSE (§1.7) reply by
+        // requestId — see WebSocketServiceClient.requestLogs for a complete implementation.
+        return CompletableFuture.completedFuture(java.util.List.of());
+    }
+
+    @Override
+    public CompletableFuture<ConnectionTestResult> testRawConnection(String host, int port, String username, String password, boolean detectOs) {
+        // TODO: send TEST_RAW_CONNECTION (§2.10), correlate TEST_RAW_CONNECTION_RESULT (§1.8).
+        return CompletableFuture.completedFuture(ConnectionTestResult.failed("testRawConnection not implemented in skeleton"));
+    }
+
+    @Override
+    public CompletableFuture<RemoteBrowseResult> browseRemote(String host, int port, String username, String password, String path) {
+        // TODO: send BROWSE_REMOTE (§2.11), correlate BROWSE_REMOTE_RESPONSE (§1.9).
+        return CompletableFuture.completedFuture(new RemoteBrowseResult(path, java.util.List.of(), "browseRemote not implemented in skeleton"));
+    }
+
     private class Listener implements WebSocket.Listener {
         private final StringBuilder buffer = new StringBuilder();
 

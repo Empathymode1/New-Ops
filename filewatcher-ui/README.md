@@ -82,6 +82,28 @@ RELAY_BACKEND_URL=ws://your-host:port/ws mvn javafx:run
 To fall back to the old in-memory `MockServiceClient` (no backend needed
 at all), run with `-DuseMockBackend=true` or `USE_MOCK_BACKEND=true`.
 
+### Connecting to the real production backend
+
+`filewatcher-service`'s real engine (SFTP/FTP/SCP watchers, scheduler,
+SQLite-backed job store) now speaks this same contract via
+`RelayWebSocketServer`, started automatically by `ServiceMain`. Run the
+full service:
+
+```bash
+mvn -pl filewatcher-service exec:java -Dexec.mainClass=com.filewatcherservice.Main
+```
+
+It binds to `services.json`'s `websocketHost`/`websocketPort`, which
+default to `localhost:9876` — **not** 8765. Point the UI at it explicitly:
+
+```bash
+RELAY_BACKEND_URL=ws://localhost:9876/ws mvn -pl filewatcher-ui javafx:run
+```
+
+(or edit `websocketPort` in `services.json` to `8765` to match the UI's
+zero-config default). Start/Stop/Restart/Delete/Test Connection in
+Service Management now drive real `WatchJob`s end to end.
+
 ### Try it against the reference dev backend
 
 `filewatcher-service` ships a small standalone server,

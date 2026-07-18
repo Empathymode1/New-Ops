@@ -24,6 +24,7 @@ public class SidebarNav extends VBox {
 
         addItem("dashboard", "Dashboard", "Ctrl+D", onNavigate);
         addItem("services", "Services", "Ctrl+S", onNavigate);
+        addItem("credentials", "Credentials", null, onNavigate);
         addItem("logs", "Logs", "Ctrl+L", onNavigate);
         addItem("settings", "Settings", "Ctrl+,", onNavigate);
 

@@ -1,0 +1,49 @@
+HOW TO APPLY THIS BUNDLE
+=========================
+
+This zip contains the COMPLETE, FINAL version of every file that should
+exist after all the Relay<->Monitoring WebSocket contract work (frontend
+wiring + real backend wiring + mock-backend removal). Overwrite your
+working copy with these instead of trying to apply patches — this avoids
+all the "patch does not apply" context-mismatch issues.
+
+1. DELETE this file from your repo (it no longer exists in the final
+   state — it was the mock/demo backend server, now removed):
+
+     filewatcher-service/src/main/java/com/relay/devserver/SampleBackendServer.java
+
+   Also remove the now-empty directories if left behind:
+
+     filewatcher-service/src/main/java/com/relay/devserver/
+     filewatcher-service/src/main/java/com/relay/
+
+2. COPY every file in this zip into the matching path in your repo,
+   overwriting whatever is there:
+
+     filewatcher-ui/src/main/java/com/filewatcher/MainApp.java
+     filewatcher-ui/src/main/java/com/filewatcher/service/WebSocketServiceClient.java
+     filewatcher-ui/pom.xml
+     filewatcher-ui/README.md
+     filewatcher-service/src/main/java/com/filewatcherservice/service/RelayWebSocketServer.java
+     filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceMain.java
+     filewatcher-service/src/main/java/com/filewatcherservice/service/ServiceWebSocketServer.java
+     docs/relay-monitoring-ws-contract.md
+
+   From the repo root, this is a one-liner (adjust the zip path as needed):
+
+     unzip -o relay-ws-final-snapshot.zip -x "INSTRUCTIONS.txt" -d .
+
+3. Confirm the delete actually happened (this is the one step `unzip`
+   can't do for you):
+
+     find filewatcher-service/src -path "*com/relay*"
+
+   should print nothing.
+
+4. Review with `git status` / `git diff`, then commit.
+
+5. Rebuild clean before running, since Maven/your IDE may have cached
+   stale .class files from earlier attempts:
+
+     mvn -pl filewatcher-service clean compile
+     mvn -pl filewatcher-ui clean compile

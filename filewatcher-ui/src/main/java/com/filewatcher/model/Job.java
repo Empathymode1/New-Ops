@@ -21,6 +21,13 @@ public class Job {
     private final StringProperty currentActivity = new SimpleStringProperty(this, "currentActivity");
     private final StringProperty lastError = new SimpleStringProperty(this, "lastError", "");
 
+    // Not JavaFX-bound (nothing displays it directly) — carries the full editable
+    // config (protocol/host/port/credentials-minus-password/etc.) so the Edit
+    // dialog can be pre-filled. Populated from SNAPSHOT's extended job fields
+    // (contract §1.1); null if the backend never sent them (e.g. an older
+    // server, or MockServiceClient jobs before a config is synthesized for them).
+    private WatchJobConfig rawConfig;
+
     public Job(String id, String name, String type, String sourcePath, String destPath,
                String pollingInterval, String credential, JobStatus status,
                int filesToday, String lastTransfer, String currentActivity) {
@@ -58,4 +65,7 @@ public class Job {
     public void setCurrentActivity(String a) { currentActivity.set(a); }
     public void incrementFilesToday() { filesToday.set(filesToday.get() + 1); }
     public void setLastTransfer(String s) { lastTransfer.set(s); }
+
+    public WatchJobConfig getRawConfig() { return rawConfig; }
+    public void setRawConfig(WatchJobConfig config) { this.rawConfig = config; }
 }

@@ -326,3 +326,4 @@
 .status-sep { -fx-background-color: -border; }
 .status-dot-green { -fx-fill: -green; }
 .status-dot-blue { -fx-fill: -blue; }
+.status-dot-red { -fx-fill: -red; }

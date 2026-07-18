@@ -21,16 +21,25 @@ public class AppState {
     );
     private final ObservableList<TransferEvent> logs = FXCollections.observableArrayList();
     private final ObservableList<ActivityEvent> activityFeed = FXCollections.observableArrayList();
+    private final ObservableList<CredentialInfo> credentials = FXCollections.observableArrayList();
     private final DashboardStats stats = new DashboardStats();
     private final ObjectProperty<Job> selectedJob = new SimpleObjectProperty<>(null);
+    // Backend's best-guess hostname (contract §1.1's SNAPSHOT.localHost) --
+    // lets a job form auto-fill "this machine" instead of asking the operator
+    // to type a hostname the server already knows. "localhost" until the
+    // first SNAPSHOT arrives.
+    private final javafx.beans.property.StringProperty localHost =
+            new javafx.beans.property.SimpleStringProperty(this, "localHost", "localhost");
 
     private static final int MAX_ACTIVITY_ITEMS = 8;
 
     public ObservableList<Job> getJobs() { return jobs; }
     public ObservableList<TransferEvent> getLogs() { return logs; }
     public ObservableList<ActivityEvent> getActivityFeed() { return activityFeed; }
+    public ObservableList<CredentialInfo> getCredentials() { return credentials; }
     public DashboardStats getStats() { return stats; }
     public ObjectProperty<Job> selectedJobProperty() { return selectedJob; }
+    public javafx.beans.property.StringProperty localHostProperty() { return localHost; }
 
     public Job findJob(String jobId) {
         if (jobId == null) return null;
@@ -39,6 +48,11 @@ public class AppState {
 
     public Optional<Job> findJobByName(String name) {
         return jobs.stream().filter(j -> j.getName().equals(name)).findFirst();
+    }
+
+    public CredentialInfo findCredential(String id) {
+        if (id == null) return null;
+        return credentials.stream().filter(c -> id.equals(c.getId())).findFirst().orElse(null);
     }
 
     public void pushActivity(ActivityEvent event) {

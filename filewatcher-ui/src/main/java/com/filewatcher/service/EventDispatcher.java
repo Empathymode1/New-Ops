@@ -80,7 +80,23 @@ public class EventDispatcher {
                 if (job != null && event.newStatus() != null) job.setStatus(event.newStatus());
                 state.recomputeRunningStoppedCounts();
             }
-            case CONNECTION_LOST -> state.getStats().webSocketStatusProperty().set("Reconnecting…");
+            case CONNECTION_LOST -> {
+                state.getStats().webSocketStatusProperty().set("Reconnecting…");
+                // BUG FIX: these used to keep showing their last-known value (often
+                // "Healthy") indefinitely after a disconnect, since nothing ever
+                // reset them -- only the WebSocket row itself (derived straight from
+                // webSocketStatusProperty above) reflected reality. We have no way
+                // to confirm any of these are still true once the channel reporting
+                // them is down, so they go back to UNKNOWN ("Checking…" badge) rather
+                // than silently lying "Healthy". A fresh HEALTH message (contract
+                // §1.4) arrives moments after CONNECTION_RESTORED -- the backend
+                // sends one immediately on every new connection, not just on its
+                // periodic timer -- so this self-corrects with no extra request needed.
+                state.getStats().databaseHealthProperty().set("UNKNOWN");
+                state.getStats().schedulerHealthProperty().set("UNKNOWN");
+                state.getStats().monitoringServiceHealthProperty().set("UNKNOWN");
+                state.getStats().socketServiceHealthProperty().set("UNKNOWN");
+            }
             case CONNECTION_RESTORED -> state.getStats().webSocketStatusProperty().set("Connected");
         }
     }
